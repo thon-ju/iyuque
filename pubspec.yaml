@@ -1,0 +1,99 @@
+name: my_yuque
+description: 语雀客户端
+
+# The following line prevents the package from being accidentally published to
+# pub.dev using `pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.10.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  dio: 4.0.0
+  cookie_jar: 1.0.1
+  # json注解 #https://pub.dartlang.org/packages/json_serializable
+  json_annotation: ^3.0.1
+  #图标字体的一个库 https://pub.dartlang.org/packages/font_awesome_flutter
+  font_awesome_flutter: 8.4.0
+  # Toast插件 https://github.com/OpenFlutter/flutter_oktoast
+  oktoast: ^3.0.0
+  # 处理键盘事件 https://github.com/diegoveloper/flutter_keyboard_actions
+  keyboard_actions: ^3.3.0
+  #用于从Android和iOS图像库中选择图像，并使用相机拍摄新照片 https://pub.dartlang.org/packages/image_picker
+  image_picker: ^0.7.5
+  #图片压缩格式转换 https://github.com/brendan-duncan/image
+  image: ^3.0.2
+  #进度提示组件
+  progress_hud: 1.1.0
+  #大图浏览组件
+  photo_view: ^0.10.2
+  #最好用的路由导航框架 https://pub.dartlang.org/packages/fluro
+  fluro: ^1.7.8
+  #图片压缩 https://pub.dartlang.org/packages/flutter_image_compress
+  flutter_image_compress: ^0.7.0
+  # Flutter 常用工具类库 https://github.com/Sky24n/flustars
+  flustars: 0.3.3
+  # 汉字转拼音库 https://github.com/flutterchina/lpinyin
+  lpinyin: ^1.0.9
+  # Flutter 国际化/多语言库 https://github.com/Sky24n/fluintl
+  fluintl: ^0.1.3
+  # https://github.com/flutter/plugins/tree/master/packages/url_launcher
+  url_launcher: 6.0.3
+  pull_to_refresh: 1.1.6
+  # webview_flutter
+  webview_flutter: 2.0.12
+  # rxdart https://github.com/ReactiveX/rxdart
+  rxdart: ^0.24.1
+  # https://github.com/renefloor/flutter_cached_network_image
+  cached_network_image: ^2.2.0+1
+  # https://github.com/flutterchina/flukit.
+  flukit: ^1.0.2
+  html: ^0.15.0
+  device_info: ^2.0.2
+  # 日历组件
+  flutter_datetime_picker: ^1.5.1
+  permission_handler: ^7.1.0
+  # 时间轴视图
+  timeline_tile: ^2.0.0
+  # 桌面图标提醒
+  flutter_app_badger: ^1.2.0
+  #获取app信息
+  package_info: ^2.0.2
+  #更新插件
+  ota_update: ^3.0.2
+  crypto: ^3.0.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter.
+flutter:
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/images/login/
+    - assets/images/icon_qrcode.png
+    - assets/images/cover.jpg
+    - assets/images/avatar.png
+    - assets/images/qrcode.png
+    - assets/images/ic_launcher.png
+    - assets/images/ic_data_empty.png
+    - assets/images/ic_network_error.png
+    - assets/images/guide1.png
+    - assets/images/guide2.png
+    - assets/images/guide3.png
+    - assets/images/splash_bg.png
