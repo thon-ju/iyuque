@@ -7,6 +7,9 @@ import 'package:crypto/crypto.dart';
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:my_yuque/common/common.dart';
+import 'package:my_yuque/net/dio_util.dart';
+import 'package:my_yuque/net/http_api.dart';
+import 'package:my_yuque/util/utils.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 /// 409回到登录时的上下文
@@ -25,6 +28,9 @@ class LoginOAuthPageState extends State<LoginOAuthPage> {
   final String OAUTH_URL = OAuthConfig.oauthUrl;
   String request_params = "";
 
+  // 轮询获取授权情况
+  Timer _timer;
+
   @override
   void initState() {
     super.initState();
@@ -42,6 +48,37 @@ class LoginOAuthPageState extends State<LoginOAuthPage> {
     print(sign);
 
     if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
+
+    _timer = Timer.periodic(Duration(seconds: 3), (timer) {
+      _login();
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  Future _login() async {
+    String oauthCode = SpUtil.getString(OAuthConfig.keyCode, defValue: Utils.getRandomString(40));
+    Map<String, dynamic> formData = {'client_id': OAuthConfig.clientId, 'code': oauthCode, 'grant_type':'client_code'};
+    DioUtil().requestR(Method.post, OAuthConfig.tokenUrl, data: formData).then((resp){
+      Map<String, dynamic> map = resp.data;
+      if(map['access_token'].toString().isNotEmpty){
+        SpUtil.putString(OAuthConfig.keyToken, map['access_token']);
+
+        DioUtil().requestR(Method.get, Api.USER_INFO, data: formData).then((respUser){
+          Map<String, dynamic> userMap = respUser.data;
+
+          SpUtil.putObject(Constant.keyUserInfo, userMap['data']);
+          SpUtil.putInt(Constant.keyUserId, userMap['data']['id']);
+
+          Navigator.popAndPushNamed(context, "/home");
+        });
+
+      }
+    });
   }
 
   @override

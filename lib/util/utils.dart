@@ -305,16 +305,6 @@ class Utils {
     );
   }
 
-  static bool checkPermission(String code){
-    List<String> permissions = SpUtil.getStringList(Constant.keyPermissions);
-
-    if(permissions[0] == "*:*:*" || permissions.contains(code)){
-      return true;
-    }
-
-    return false;
-  }
-
   static bool isShowErrorMsg(Response e){
     /// 重定向时不显示toast信息
     if(e != null && e is Response && (e.statusCode == 409 || e.statusCode == 401))

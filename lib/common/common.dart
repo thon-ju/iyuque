@@ -1,16 +1,11 @@
 class Constant {
   static const String keyLanguage = 'key_language';
-  static const String keySessionId = 'jsessionid';
   static const String keyUserId = 'key_user_id';
   static const String keyUserInfo = 'key_user_info';
-  static const String keyOffice = 'key_office';
-  static const String keyOffices = 'key_offices';
-  static const String keyPermissions = 'key_permissions';
+  static const String keyUserRepo= 'key_user_repo';
+  static const String keyUserRepos= 'key_user_repos';
 
   static const int status_success = 0;
-
-  static const String server_address = xcy_android;
-  static const String xcy_android = "http://wz1702.xingcyun.com";
 
   static const int type_sys_update = 1;
   static const int type_menu_update = 2;

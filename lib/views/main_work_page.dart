@@ -1,12 +1,12 @@
-import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:my_yuque/common/common.dart';
 import 'package:my_yuque/components/blocs/application_bloc.dart';
 import 'package:my_yuque/components/blocs/bloc_provider.dart';
 import 'package:my_yuque/net/dio_util.dart';
 import 'package:my_yuque/net/http_api.dart';
+import 'package:my_yuque/res/strings.dart';
 import 'package:my_yuque/util/utils.dart';
-import 'package:my_yuque/views/main_work_menu_page.dart';
+import 'package:my_yuque/views/main_doc_page.dart';
 
 class MainWorkPage extends StatefulWidget {
 
@@ -31,6 +31,7 @@ class MainWorkPageState extends State<MainWorkPage> with SingleTickerProviderSta
   Widget build(BuildContext context) {
     final ApplicationBloc bloc = BlocProvider.of<ApplicationBloc>(context);
 
+    // TODO 刷新知识库列表
     Future<Null> _onRefresh() async {
       // 获取权限
       Map<String, dynamic> formData = {};
@@ -39,8 +40,6 @@ class MainWorkPageState extends State<MainWorkPage> with SingleTickerProviderSta
         for(int i = 0; i < resp.data['permissions'].length; i++){
           permissions.add(resp.data['permissions'][i]);
         }
-        SpUtil.remove(Constant.keyPermissions);
-        SpUtil.putStringList(Constant.keyPermissions, permissions);
 
         print('work page refresh');
         bloc.sendAppEvent(Constant.type_menu_update);
@@ -52,56 +51,7 @@ class MainWorkPageState extends State<MainWorkPage> with SingleTickerProviderSta
 
     return Scaffold(
       key: _scaffoldKey,
-      body: RefreshIndicator(
-        onRefresh: _onRefresh,
-        child: ListView(
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.fromLTRB(15, 12, 15, 5),
-              child: SizedBox(
-                height: 160.0,
-                child: new Stack(
-                  children: <Widget>[
-                    Positioned.fill(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage(
-                              Utils.getImgPath('cover', format: 'jpg'),
-                            ),
-                            fit: BoxFit.fill,
-                          ),
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10.0),
-                          ),
-                        ),
-                      ),
-                    ),
-                    new Positioned(
-                      top: 30.0,
-                      left: 16.0,
-                      right: 16.0,
-                      child: new FittedBox(
-                        fit: BoxFit.scaleDown,
-                        alignment: Alignment.centerLeft,
-                        child: Text('智慧管理 铸精品工程',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            )),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              child: MainWorkMenuPage(),
-            ),
-          ],
-        ),
-      ),
+      body: MainDocPage(labelId: Ids.titleDoc,),
     );
   }
 }

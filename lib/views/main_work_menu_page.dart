@@ -144,17 +144,13 @@ class MainWorkMenuPageState extends State<MainWorkMenuPage> {
   //   */
   List<Widget> buildSections(List allMenus){
     List<Widget> sections = new List();
-    List<String> permissions= SpUtil.getStringList(Constant.keyPermissions);
 
     /// 一层模块
     for(MenuNode menuNode in allMenus){
       List<Container> children = new List();
       /// 二层菜单
       for(MenuNode child in menuNode.children){
-        /// 权限过滤
-        if(permissions[0] == "*:*:*" || permissions.contains(child.code)){
-          children.add(buildButton(child.iconData, child.name, child.link));
-        }
+        children.add(buildButton(child.iconData, child.name, child.link));
       }
 
       if(children.length>0){

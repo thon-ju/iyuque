@@ -21,60 +21,25 @@ class MainAppBarPage extends StatefulWidget {
 }
 
 class MainAppBarPageState extends State<MainAppBarPage>{
-  List _officeList = List();
-  Office _selectedOffice;
+  List _repoList = List();
+  Repo _selectedRepo = Repo();
+  int userId = SpUtil.getInt(Constant.keyUserId);
 
   void _selectOffice(BuildContext context) async {
-    List<dynamic> offices = await Navigator.push(context, MaterialPageRoute(
+    List<dynamic> repos = await Navigator.push(context, MaterialPageRoute(
           builder: (_context) => ListSelect(
-            title: '选择项目',
-            selected: _selectedOffice,
-            list: _officeList,
+            title: '选择知识库',
+            selected: _selectedRepo,
+            list: _repoList,
             columns: [
-              {'field':'name','title':'项目名称'},
+              {'field':'name','title':'知识库'},
             ],
           )
       ),
     );
 
-    if(offices != null && offices[0].id != _selectedOffice.id){
-
-      Map<String, dynamic> formData = {'id': offices[0].id};
-
-      // TODO 选择知识库
-      DioUtil().request(Method.get, "", data: formData).then((resp){
-      if(resp.data['code'] == 200){
-
-        if(this.mounted){
-          setState(() {
-            _selectedOffice = offices[0];
-          });
-
-          SpUtil.putObject(Constant.keyOffice, offices[0]);
-
-          SpUtil.remove(Constant.keyPermissions);
-          // 获取权限
-          Map<String, dynamic> formData = {};
-          DioUtil().request(Method.get, Api.USER_INFO, data: formData).then((resp){
-            List<String> permissions = resp.data['permissions'].map<String>((e){return e.toString();}).toList();
-            SpUtil.putStringList(Constant.keyPermissions, permissions);
-
-          }).catchError((e){
-            if(e != null && Utils.isShowErrorMsg(e.response))
-              Utils.showInModalBottomSheet(context, '用户权限加载错误.');
-          });
-
-          final ApplicationBloc bloc = BlocProvider.of<ApplicationBloc>(context);
-          bloc.sendAppEvent(Constant.type_menu_update);
-        }
-
-      } else {
-        Utils.showInModalBottomSheet(context, '更改项目失败，请重试.');
-      }
-      }).catchError((e){
-        if(e != null && Utils.isShowErrorMsg(e.response))
-          Utils.showInModalBottomSheet(context, '网络错误，请重试.');
-      });
+    if(repos != null && repos[0].id != _selectedRepo.id){
+      _getDocs(repos[0]);
     }
   }
 
@@ -83,8 +48,7 @@ class MainAppBarPageState extends State<MainAppBarPage>{
     super.initState();
     _initListener();
 
-    _officeList = SpUtil.getObjList(Constant.keyOffices, (e){ return Office.fromJson(e);});
-    _selectedOffice = SpUtil.getObj(Constant.keyOffice, (e){ return Office.fromJson(e);});
+    WidgetsBinding.instance.addPostFrameCallback((_) => _getRepos());
   }
 
   void _initListener() {
@@ -94,10 +58,47 @@ class MainAppBarPageState extends State<MainAppBarPage>{
         print('rebuild appbar');
         if(this.mounted){
           setState(() {
-            _selectedOffice = SpUtil.getObj(Constant.keyOffice, (e){ return Office.fromJson(e);});
+            _selectedRepo = SpUtil.getObj(Constant.keyUserRepo, (e){ return Repo.fromJson(e);});
           });
         }
       }
+    });
+  }
+
+  _getRepos(){
+    DioUtil().requestR(Method.get, '${Api.BASE_URL}/users/$userId/repos', data: {}).then((resp){
+
+      List<Repo> list = resp.data['data'].map<Repo>((e){return Repo.fromJson(e);}).toList();
+
+      _repoList = list;
+      _selectedRepo = list[0];
+
+      SpUtil.putObjectList(Constant.keyUserRepos, _repoList);
+      SpUtil.putObject(Constant.keyUserRepo, _selectedRepo);
+
+      _getDocs(_selectedRepo);
+
+    }).catchError((e){
+      Utils.showInModalBottomSheet(context, '获取知识库失败');
+    });
+  }
+
+  _getDocs(Repo selectedRepo){
+    // 获取文档列表
+    DioUtil().request(Method.get, "${Api.BASE_URL}/repos/${selectedRepo.id}/docs", data: {}).then((resp){
+      if(this.mounted){
+        setState(() {
+          _selectedRepo = selectedRepo;
+        });
+
+        SpUtil.putObject(Constant.keyUserRepo, selectedRepo);
+
+        final ApplicationBloc bloc = BlocProvider.of<ApplicationBloc>(context);
+        bloc.sendAppEvent(Constant.type_menu_update);
+      }
+    }).catchError((e){
+      if(e != null && Utils.isShowErrorMsg(e.response))
+        Utils.showInModalBottomSheet(context, '网络错误，请重试.');
     });
   }
 
@@ -114,20 +115,21 @@ class MainAppBarPageState extends State<MainAppBarPage>{
         title: InkWell(
           child: DropdownButtonHideUnderline(
             child: DropdownButton<String>(
-              isExpanded: true,
-              disabledHint: Text('选择知识库', textAlign: TextAlign.center, style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold
+              isExpanded: false,
+              disabledHint: Text(_selectedRepo.name, textAlign: TextAlign.center, style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold
               ),),
             ),
           ),
           onTap: (){_selectOffice(context);},
         ),
+        centerTitle: true,
         automaticallyImplyLeading: false,
       );
     }else{
       return MeAppBar(
         title: Text(widget.tabData[widget.tabIndex]['text'],),
         automaticallyImplyLeading: false,
-        centerTitle: false,
+        centerTitle: true,
       );
     }
   }

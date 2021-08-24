@@ -93,11 +93,14 @@ class LoginPageState extends State<LoginPage> {
       _progressHUD.state.dismiss();
       Map<String, dynamic> map = resp.data;
       if(map['access_token'].toString().isNotEmpty){
+        SpUtil.putString(OAuthConfig.keyToken, map['access_token']);
 
         DioUtil().requestR(Method.get, Api.USER_INFO, data: formData).then((respUser){
           Map<String, dynamic> userMap = respUser.data;
 
           SpUtil.putObject(Constant.keyUserInfo, userMap['data']);
+          SpUtil.putInt(Constant.keyUserId, userMap['data']['id']);
+
           Navigator.popAndPushNamed(context, "/home");
         }).catchError((e){
           _progressHUD.state.dismiss();
@@ -176,7 +179,7 @@ class LoginPageState extends State<LoginPage> {
                             color: Theme.of(context).primaryColor
                         ),
                       ),
-                      onTap: (){
+                      onTap: () async {
                         Navigator.push(context, MaterialPageRoute(builder: (context) =>LoginOAuthPage(),),);
                       },
                     )
