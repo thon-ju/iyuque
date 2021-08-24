@@ -6,6 +6,7 @@ import 'package:my_yuque/common/sp_helper.dart';
 import 'package:my_yuque/components/me_app_bar.dart';
 import 'package:my_yuque/components/text_field.dart';
 import 'package:my_yuque/net/dio_util.dart';
+import 'package:my_yuque/net/http_api.dart';
 import 'package:my_yuque/res/colors.dart';
 import 'package:my_yuque/res/styles.dart';
 import 'package:my_yuque/util/utils.dart';
@@ -93,8 +94,15 @@ class LoginPageState extends State<LoginPage> {
       Map<String, dynamic> map = resp.data;
       if(map['access_token'].toString().isNotEmpty){
 
-        SpUtil.putString(OAuthConfig.keyToken, map['access_token']);
-        Navigator.popAndPushNamed(context, "/home");
+        DioUtil().requestR(Method.get, Api.USER_INFO, data: formData).then((respUser){
+          Map<String, dynamic> userMap = respUser.data;
+
+          SpUtil.putObject(Constant.keyUserInfo, userMap['data']);
+          Navigator.popAndPushNamed(context, "/home");
+        }).catchError((e){
+          _progressHUD.state.dismiss();
+          Utils.showInModalBottomSheet(context, '获取用户信息失败');
+        });
 
       }else{
         // 登录失败

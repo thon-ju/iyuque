@@ -1,24 +1,16 @@
-import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
-import 'package:http_parser/http_parser.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:my_yuque/common/common.dart';
-import 'package:my_yuque/components/photo_viewer.dart';
 import 'package:my_yuque/model/json_data.dart';
-import 'package:my_yuque/net/dio_util.dart';
-import 'package:my_yuque/net/http_api.dart';
 import 'package:my_yuque/res/colors.dart';
 import 'package:my_yuque/res/styles.dart';
 import 'package:my_yuque/util/image_utils.dart';
 import 'package:my_yuque/util/utils.dart';
 import 'package:oktoast/oktoast.dart';
-import 'package:path_provider/path_provider.dart';
 
 class ProgressView extends StatelessWidget {
   @override
@@ -1401,174 +1393,6 @@ class FormDropDown extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-}
-
-class ImageContainer extends StatelessWidget {
-  const ImageContainer({@required this.pic, this.icontext, this.onChange, this.canEdit, Key key}) : super(key: key);
-
-  final String pic;
-  final BuildContext icontext;
-  final Function onChange;
-  final bool canEdit;
-
-  List<Widget> _showImages(BuildContext context, List<String> pics){
-    List<Widget> list = new List();
-    for(int i = 0; i < pics.length; i++){
-      list.add(_showPhotoWidget(context, i, pics));
-    }
-
-    if(canEdit == true){
-      list.add(_addPhotoWidget(context, pics));
-    }
-
-    return list;
-  }
-
-  Widget _showPhotoWidget(BuildContext context, int initialIndex, List<String> pics){
-    List<String> urls = new List();
-    for(String pic in pics){
-      if(pic == null){
-        continue;
-      }
-      urls.add(Api.ATTACHMENT_DOWNLOAD+pic);
-    }
-
-    return Center(
-      child: Stack(
-          fit:StackFit.expand,
-          overflow:Overflow.visible,
-          children: <Widget>[
-            GestureDetector(
-                onTap: () {
-                  Navigator.push(context,
-                    new MaterialPageRoute(
-                      builder: (context) => PhotoViewer(pics: urls, initialIndex: initialIndex),
-                    ),
-                  );
-                },
-                child: Image.network(
-                  urls[initialIndex],
-                  fit: BoxFit.cover,
-                )
-            ),
-            canEdit==true?Positioned(
-              right: 0,
-              child: IconButton(
-                  padding: const EdgeInsets.all(0),
-                  icon: Icon(Icons.highlight_off, size: 35,),
-                  color: Colors.red,
-                  onPressed: (){
-                    pics.removeAt(initialIndex);
-                    onChange(pics.join(','));
-                  }
-              ),
-            ):Container()
-          ]
-      ),
-    );
-  }
-
-  void _showSelectModal(BuildContext context, List<String> pics){
-    final picker = ImagePicker();
-
-    /// 添加图片
-    Future _selectImage(ImageSource source, BuildContext context) async {
-      var imageFile = await picker.getImage(source: source, maxHeight: 1200.0, maxWidth: 1200.0);
-      if(imageFile == null){
-        return ;
-      }
-
-      /// 保存图片的参数
-      Map<String, dynamic> picData = Map<String, dynamic>();
-      final directory = await getApplicationDocumentsDirectory();
-
-      /// 压缩上传
-      var compressedImage = await FlutterImageCompress.compressAndGetFile(
-        imageFile.path,
-        '${directory.path}/附_${DateUtil.getNowDateMs()}.jpg'
-      );
-      picData['${imageFile.path}'] = await MultipartFile.fromFile(compressedImage.path, contentType: MediaType('image', 'jpeg'));
-
-      DioUtil().request(Method.post, Api.ATTACHMENT_UPLOAD, data: picData).then((resp){
-        List files = jsonDecode(resp.data);
-
-        if(!ObjectUtil.isEmpty(files)) {
-          pics.add(files[0]['id'].toString());
-        }
-
-        onChange(pics.join(','));
-      }).catchError((e){
-
-      });
-    }
-
-    showCupertinoModalPopup<String>(
-      context: context,
-      builder: (context) =>
-      new CupertinoActionSheet(
-          actions: <Widget>[
-            new CupertinoActionSheetAction(
-              child: const Text('拍照'),
-              onPressed: () {
-                _selectImage(ImageSource.camera, context);
-                Navigator.pop(context, '拍照');
-              },
-            ),
-            new CupertinoActionSheetAction(
-              child: const Text('从相册中选取'),
-              onPressed: () {
-                _selectImage(ImageSource.gallery, context);
-                Navigator.pop(context, '从相册中选取');
-              },
-            ),
-          ],
-          cancelButton: new CupertinoActionSheetAction(
-            child: const Text('取消'),
-            onPressed: () {
-              Navigator.pop(context, 'Cancel');
-            },
-          )
-      ),
-    );
-  }
-
-  Widget _addPhotoWidget(BuildContext context, List<String> pics){
-    return GestureDetector(
-      onTap: () {
-        _showSelectModal(context, pics);
-      },
-      child: new Container(
-        decoration: new BoxDecoration(
-            border:Border.all(color: Colors.grey[350]),
-            borderRadius: new BorderRadius.all(new Radius.circular(10.0))
-        ),
-        child: ClipRRect(
-            borderRadius:new BorderRadius.all(new Radius.circular(1.0)),
-            child: Center(child:Icon(Icons.add, size: 40, color: Colors.grey[350],),)
-        ),
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-
-    List<String> pics = ObjectUtil.isEmptyString(pic)?[]:pic.split(',');
-
-    return pics.length == 0 && canEdit == false?Container():Container(
-      padding: EdgeInsets.only(top: 8),
-      height: 205 + (185*(pics.length~/3)).toDouble(),
-      child: GridView.count(
-        physics: const NeverScrollableScrollPhysics(),
-        primary: false,
-        crossAxisCount: 3,
-        mainAxisSpacing: 8.0,
-        crossAxisSpacing: 8.0,
-        childAspectRatio: 1.0,
-        children: _showImages(icontext, pics),
-      ),
     );
   }
 }

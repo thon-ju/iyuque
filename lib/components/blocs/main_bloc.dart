@@ -16,17 +16,6 @@ class MainBloc implements BlocBase {
   Sink<StatusEvent> get _eventSink => _event.sink;
   Stream<StatusEvent> get eventStream => _event.stream.asBroadcastStream();
 
-  /// 系统公告
-  BehaviorSubject<MyPage<Message>> _recMessage = BehaviorSubject<MyPage<Message>>();
-  Sink<MyPage<Message>> get _recMessageSink => _recMessage.sink;
-  Stream<MyPage<Message>> get recMessageStream => _recMessage.stream;
-
-  /// 系统公告
-
-  int _messagePage = 1;
-  List<Message> _messageList = List();
-  int _messagePages = 1;
-
   ///****** ****** ****** Version ****** ****** ****** /
   BehaviorSubject<Version> _version = BehaviorSubject<Version>();
   Sink<Version> get _versionSink => _version.sink;
@@ -43,7 +32,6 @@ class MainBloc implements BlocBase {
   Future getData({String labelId, Map<String, dynamic> params}) {
     switch (labelId) {
       case Ids.titleMessage:
-        return getRecMessage(labelId, params);
         break;
       default:
         return Future.delayed(new Duration(seconds: 1));
@@ -57,8 +45,7 @@ class MainBloc implements BlocBase {
     int _totalPages = 1;
     switch (labelId) {
       case Ids.titleMessage:
-        _page = ++_messagePage;
-        _totalPages = _messagePages;
+
         break;
       default:
         break;
@@ -76,38 +63,12 @@ class MainBloc implements BlocBase {
   Future onRefresh({String labelId, Map<String, dynamic> params}) {
     switch (labelId) {
       case Ids.titleMessage:
-        _messagePage = 1;
         break;
       default:
         break;
     }
 
     return getData(labelId: labelId, params: params);
-  }
-
-  Future getRecMessage(String labelId, Map<String, dynamic> params) async {
-    params['page'] = _messagePage;
-
-    DioUtil().request(Method.get, Api.MESSAGE_LIST, data: params).then((resp){
-      MyPage<Message> page =  MyPage.fromJson(resp.data);
-      _eventSink.add(StatusEvent(labelId, ObjectUtil.isEmpty(page.rows) ? RefreshStatus.noMore : RefreshStatus.idle));
-
-      if (_messageList == null) {
-        _messageList = new List();
-      }
-      if (_messagePage == 1) {
-        _messageList.clear();
-      }
-      _messageList.addAll(page.rows);
-
-      page.rows = _messageList;
-      _recMessageSink.add(page);
-    }).catchError((errorMsg){
-      LogUtil.e("error labelId: $labelId" + "  msg: $errorMsg");
-
-      _messagePage--;
-      _eventSink.add(new StatusEvent(labelId, RefreshStatus.canRefresh));
-    });
   }
 
   Future getVersion() async {
@@ -126,13 +87,12 @@ class MainBloc implements BlocBase {
   }
 
   void clear(){
-    _messageList?.clear();
+
   }
 
   @override
   void dispose() {
     _event.close();
-    _recMessage.close();
     _version.close();
   }
 }

@@ -14,9 +14,6 @@ import 'package:my_yuque/util/navigator_util.dart';
 import 'package:my_yuque/util/utils.dart';
 import 'package:my_yuque/views/setting_page.dart';
 
-import 'change_password_page.dart';
-import 'personal_info_edit_page.dart';
-
 class MainMePage extends StatefulWidget {
 
   @override
@@ -34,8 +31,11 @@ class MainMePageState extends State<MainMePage> {
   void initState() {
     super.initState();
     setState(() {
-      userName = userInfo['result']['name'];
-      userAccount = userInfo['result']['loginName'];
+      if(userInfo.isNotEmpty){
+        userName = userInfo['name'];
+        userAccount = '${userInfo['id']}';
+      }
+
     });
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
@@ -105,12 +105,6 @@ class MainMePageState extends State<MainMePage> {
                 Utils.checkVersion(context, true, true);
               }
           )),
-          ComArrowItem(ComModel(title: '个人资料', extra: '', icon: FontAwesomeIcons.addressBook, onTap: (){
-            NavigatorUtil.pushPage(context, PersonalInfoPage(), pageName: Ids.titlePersonalInfo);
-          })),
-          ComArrowItem(ComModel(title: '修改密码', extra: '', icon: FontAwesomeIcons.key, onTap: (){
-            NavigatorUtil.pushPage(context, ChangePasswordPage(), pageName: Ids.titleChangePassword);
-          })),
           ComArrowItem(ComModel(title: '关于行创云',  icon: FontAwesomeIcons.infoCircle, url: 'http://xingcyun.com/#/about')),
           Gaps.vGap10,
           ComArrowItem(ComModel(title: '设置', extra: '', icon: FontAwesomeIcons.cog, onTap: (){

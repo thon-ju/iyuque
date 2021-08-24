@@ -40,7 +40,9 @@ class MainAppBarPageState extends State<MainAppBarPage>{
     if(offices != null && offices[0].id != _selectedOffice.id){
 
       Map<String, dynamic> formData = {'id': offices[0].id};
-      DioUtil().request(Method.get, Api.OFFICE_CHANGE, data: formData).then((resp){
+
+      // TODO 选择知识库
+      DioUtil().request(Method.get, "", data: formData).then((resp){
       if(resp.data['code'] == 200){
 
         if(this.mounted){
@@ -107,13 +109,13 @@ class MainAppBarPageState extends State<MainAppBarPage>{
   @override
   Widget build(BuildContext context) {
 
-    if(widget.tabIndex == 1){
+    if(widget.tabIndex == 0){
       return MeAppBar(
         title: InkWell(
           child: DropdownButtonHideUnderline(
             child: DropdownButton<String>(
               isExpanded: true,
-              disabledHint: Text(_selectedOffice.name, textAlign: TextAlign.center, style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold
+              disabledHint: Text('选择知识库', textAlign: TextAlign.center, style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold
               ),),
             ),
           ),
