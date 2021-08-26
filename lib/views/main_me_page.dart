@@ -12,7 +12,8 @@ import 'package:my_yuque/res/strings.dart';
 import 'package:my_yuque/res/styles.dart';
 import 'package:my_yuque/util/navigator_util.dart';
 import 'package:my_yuque/util/utils.dart';
-import 'package:my_yuque/views/setting_page.dart';
+import 'package:my_yuque/views/me/setting_page.dart';
+import 'package:my_yuque/views/me/sync_data_page.dart';
 
 class MainMePage extends StatefulWidget {
 
@@ -105,7 +106,9 @@ class MainMePageState extends State<MainMePage> {
                 Utils.checkVersion(context, true, true);
               }
           )),
-          ComArrowItem(ComModel(title: '关于行创云',  icon: FontAwesomeIcons.infoCircle, url: 'http://xingcyun.com/#/about')),
+          ComArrowItem(ComModel(title: '数据同步',  icon: FontAwesomeIcons.checkCircle, onTap: (){
+            NavigatorUtil.pushPage(context, SyncDataPage(), pageName: Ids.titleMeSyncData);
+          })),
           Gaps.vGap10,
           ComArrowItem(ComModel(title: '设置', extra: '', icon: FontAwesomeIcons.cog, onTap: (){
             NavigatorUtil.pushPage(context, SettingPage(), pageName: Ids.titleSetting);

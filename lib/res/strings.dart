@@ -4,6 +4,7 @@ class Ids {
   static const String titleBookmarks = 'title_bookmarks';
   static const String titleCollection = 'title_collection';
   static const String titleSetting = 'title_setting';
+  static const String titleMeSyncData = 'title_me_sync_data';
   static const String titleAbout = 'title_about';
   static const String titleMessage = 'title_message';
   static const String titleShare = 'title_share';

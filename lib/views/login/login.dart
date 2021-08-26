@@ -109,11 +109,11 @@ class LoginPageState extends State<LoginPage> {
 
       }else{
         // 登录失败
-        Utils.showInModalBottomSheet(context, '认证已失效，需要重新OAuth登录');
+        Navigator.of(context).pushNamed('/login/oauth');
       }
     }).catchError((e){
       _progressHUD.state.dismiss();
-      Utils.showInModalBottomSheet(context, '网络链接异常，请重试');
+      Navigator.of(context).pushNamed('/login/oauth');
     });
   }
 

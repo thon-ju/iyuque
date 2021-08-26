@@ -7,6 +7,7 @@ import 'package:my_yuque/util/theme_utils.dart';
 import 'package:my_yuque/util/utils.dart';
 import 'package:my_yuque/views/main_app_bar.dart';
 import 'package:my_yuque/views/main_me_page.dart';
+import 'package:my_yuque/views/main_repo_page.dart';
 import 'package:my_yuque/views/main_work_page.dart';
 
 class MainPage extends StatefulWidget {
@@ -19,12 +20,14 @@ class MainPageState extends State<MainPage> with TickerProviderStateMixin {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   List<Widget> _list =  [
+    MainRepoPage(),
     MainWorkPage(),
     MainMePage()
   ];
   int _currentIndex = 0;
   static List tabData = [
-    {'text': '工作台', 'icon': Icon(FontAwesomeIcons.tasks)},
+    {'text': '知识库', 'icon': Icon(FontAwesomeIcons.building)},
+    {'text': '快捷入口', 'icon': Icon(FontAwesomeIcons.search)},
     {'text': '我的', 'icon': Icon(FontAwesomeIcons.user)},
   ];
 

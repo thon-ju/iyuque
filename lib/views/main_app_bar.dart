@@ -110,7 +110,7 @@ class MainAppBarPageState extends State<MainAppBarPage>{
   @override
   Widget build(BuildContext context) {
 
-    if(widget.tabIndex == 0){
+    if(widget.tabIndex == 1){
       return MeAppBar(
         title: InkWell(
           child: DropdownButtonHideUnderline(

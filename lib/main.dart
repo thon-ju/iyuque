@@ -16,6 +16,7 @@ import 'package:my_yuque/components/blocs/bloc_provider.dart';
 import 'package:my_yuque/components/blocs/main_bloc.dart';
 import 'package:my_yuque/config/application.dart';
 import 'package:my_yuque/config/routes.dart';
+import 'package:my_yuque/db/db_util.dart';
 import 'package:my_yuque/model/models.dart';
 import 'package:my_yuque/net/dio_util.dart';
 import 'package:my_yuque/net/intercept.dart';
@@ -53,6 +54,9 @@ class MyAppState extends State<MyApp> {
     super.initState();
 
     setLocalizedValues(localizedValues);
+
+
+
     _init();
     _initAsync();
     _initListener();
@@ -71,6 +75,8 @@ class MyAppState extends State<MyApp> {
     statuses.forEach((key, value) {
       print('$key premissionStatus is $value');
     });
+
+    DbUtil().db;
   }
 
   void _init() {
@@ -82,7 +88,7 @@ class MyAppState extends State<MyApp> {
     /// DioUtil().getDio().interceptors.add(CookieManager(CookieJar()));
     DioUtil().getDio().interceptors.add(AuthInterceptor());
     /// 开启日志
-    DioUtil().getDio().interceptors.add(LogInterceptor(requestBody: true));
+    // DioUtil().getDio().interceptors.add(LogInterceptor(requestBody: true));
   }
 
   void _initAsync() async {

@@ -14,6 +14,7 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  animations: ^2.0.0
   cupertino_icons: ^1.0.2
   dio: 4.0.0
   cookie_jar: 1.0.1
@@ -67,8 +68,11 @@ dependencies:
   package_info: ^2.0.2
   #更新插件
   ota_update: ^3.0.2
+  #加密包
   crypto: ^3.0.1
   flutter_markdown: ^0.6.4
+  #sqlite支持
+  sqflite: ^2.0.0+4
 
 dev_dependencies:
   flutter_test:
