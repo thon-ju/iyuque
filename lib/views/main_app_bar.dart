@@ -5,6 +5,7 @@ import 'package:my_yuque/components/blocs/application_bloc.dart';
 import 'package:my_yuque/components/blocs/bloc_provider.dart';
 import 'package:my_yuque/components/list_select.dart';
 import 'package:my_yuque/components/me_app_bar.dart';
+import 'package:my_yuque/db/repo_helper.dart';
 import 'package:my_yuque/model/json_data.dart';
 import 'package:my_yuque/net/dio_util.dart';
 import 'package:my_yuque/net/http_api.dart';
@@ -22,7 +23,7 @@ class MainAppBarPage extends StatefulWidget {
 
 class MainAppBarPageState extends State<MainAppBarPage>{
   List _repoList = List();
-  Repo _selectedRepo = Repo();
+  Book _selectedRepo = Book();
   int userId = SpUtil.getInt(Constant.keyUserId);
 
   void _selectOffice(BuildContext context) async {
@@ -58,32 +59,26 @@ class MainAppBarPageState extends State<MainAppBarPage>{
         print('rebuild appbar');
         if(this.mounted){
           setState(() {
-            _selectedRepo = SpUtil.getObj(Constant.keyUserRepo, (e){ return Repo.fromJson(e);});
+            _selectedRepo = SpUtil.getObj(Constant.keyUserRepo, (e){ return Book.fromJson(e);});
           });
         }
       }
     });
   }
 
-  _getRepos(){
-    DioUtil().requestR(Method.get, '${Api.BASE_URL}/users/$userId/repos', data: {}).then((resp){
+  _getRepos() async {
+    List<Book> list = await RepoHelper.instance.getBooks();
 
-      List<Repo> list = resp.data['data'].map<Repo>((e){return Repo.fromJson(e);}).toList();
+    _repoList = list;
+    _selectedRepo = list[0];
 
-      _repoList = list;
-      _selectedRepo = list[0];
+    SpUtil.putObjectList(Constant.keyUserRepos, _repoList);
+    SpUtil.putObject(Constant.keyUserRepo, _selectedRepo);
 
-      SpUtil.putObjectList(Constant.keyUserRepos, _repoList);
-      SpUtil.putObject(Constant.keyUserRepo, _selectedRepo);
-
-      _getDocs(_selectedRepo);
-
-    }).catchError((e){
-      Utils.showInModalBottomSheet(context, '获取知识库失败');
-    });
+    _getDocs(_selectedRepo);
   }
 
-  _getDocs(Repo selectedRepo){
+  _getDocs(Book selectedRepo){
     // 获取文档列表
     DioUtil().request(Method.get, "${Api.BASE_URL}/repos/${selectedRepo.id}/docs", data: {}).then((resp){
       if(this.mounted){

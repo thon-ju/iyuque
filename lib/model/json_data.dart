@@ -11,8 +11,8 @@ class _Converter<T> implements JsonConverter<T, Object> {
     String _class = T.toString();
 
     if (json is Map<String, dynamic>) {
-      if(_class == 'Repo'){
-        return Repo.fromJson(json) as T;
+      if(_class == 'Book'){
+        return Book.fromJson(json) as T;
       }
     }
 
@@ -124,11 +124,13 @@ class Version {
 
 
 @JsonSerializable(includeIfNull: false)
-class Repo{
+class Book{
 
-  Repo({this.name = ''});
+  Book({this.name = ''});
 
-  int id; // 仓库编号
+  int custom_id; // 仓库编号（自增）
+
+  int id; // 仓库编号（语雀平台）
   String type; 	// 类型
   String slug; 	// 仓库路径
   String name; 	// 名称
@@ -139,11 +141,12 @@ class Repo{
   int public; 	// 公开状态 [1 - 公开, 0 - 私密]
   int likes_count; 	// 喜欢数量
   int watches_count; //  订阅数量
+  int doc_count; //  文档数量
   String created_at ; // 创建时间
   String updated_at ;	// 更新时间
 
-  factory Repo.fromJson(Map<String, dynamic> json) => _$RepoFromJson(json);
-  Map<String, dynamic> toJson() => _$RepoToJson(this);
+  factory Book.fromJson(Map<String, dynamic> json) => _$BookFromJson(json);
+  Map<String, dynamic> toJson() => _$BookToJson(this);
 }
 
 @JsonSerializable(includeIfNull: false)
@@ -151,7 +154,10 @@ class Doc{
 
   Doc({this.title = ''});
 
-  int id; // 文档编号
+  int custom_id; // 文档编号（自增）
+
+  int id; // 文档编号（语雀平台）
+  int book_id; // 仓库编号
   String slug; 	// 文档路径
   String title; 	// 标题
   int user_id; // 创建人
@@ -165,6 +171,8 @@ class Doc{
   String created_at ; // 创建时间
   String updated_at ;	// 更新时间
 
+  Book book; // 所属知识库
+
   factory Doc.fromJson(Map<String, dynamic> json) => _$DocFromJson(json);
   Map<String, dynamic> toJson() => _$DocToJson(this);
 }
@@ -174,7 +182,10 @@ class DocDetail{
 
   DocDetail({this.title = ''});
 
-  int id; // 文档编号
+  int custom_id; // 文档编号（自增）
+
+  int id; // 文档编号（语雀平台）
+  int book_id; // 仓库编号
   String slug; 	// 文档路径
   String title; 	// 标题
   int user_id; // 创建人
@@ -191,6 +202,8 @@ class DocDetail{
   String content_updated_at; //  文档内容更新时间
   String created_at ; // 创建时间
   String updated_at ;	// 更新时间
+
+  Book book; // 所属知识库
 
   factory DocDetail.fromJson(Map<String, dynamic> json) => _$DocDetailFromJson(json);
   Map<String, dynamic> toJson() => _$DocDetailToJson(this);

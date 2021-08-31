@@ -56,11 +56,13 @@ class MyAppState extends State<MyApp> {
     setLocalizedValues(localizedValues);
 
 
-
     _init();
     _initAsync();
     _initListener();
     _checkPermissions();
+
+    // 数据库初始化
+    DbUtil().db;
   }
 
   @override
@@ -75,8 +77,6 @@ class MyAppState extends State<MyApp> {
     statuses.forEach((key, value) {
       print('$key premissionStatus is $value');
     });
-
-    DbUtil().db;
   }
 
   void _init() {

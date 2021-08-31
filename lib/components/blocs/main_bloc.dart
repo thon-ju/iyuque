@@ -85,7 +85,7 @@ class MainBloc implements BlocBase {
   Future getRecDoc(String labelId, Map<String, dynamic> params) async {
     params['offset '] = _docPage;
 
-    Repo _selectedRepo = SpUtil.getObj(Constant.keyUserRepo, (e){ return Repo.fromJson(e);});
+    Book _selectedRepo = SpUtil.getObj(Constant.keyUserRepo, (e){ return Book.fromJson(e);});
     if(_selectedRepo.id >0){
       DioUtil().request(Method.get, '${Api.BASE_URL}/repos/${_selectedRepo.id}/docs', data: {}).then((resp){
         List<Doc> list =  resp.data['data'].map<Doc>((e){return Doc.fromJson(e);}).toList();

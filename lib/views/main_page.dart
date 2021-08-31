@@ -6,8 +6,8 @@ import 'package:my_yuque/res/dimens.dart';
 import 'package:my_yuque/util/theme_utils.dart';
 import 'package:my_yuque/util/utils.dart';
 import 'package:my_yuque/views/main_app_bar.dart';
+import 'package:my_yuque/views/main_book_page.dart';
 import 'package:my_yuque/views/main_me_page.dart';
-import 'package:my_yuque/views/main_repo_page.dart';
 import 'package:my_yuque/views/main_work_page.dart';
 
 class MainPage extends StatefulWidget {
@@ -20,7 +20,7 @@ class MainPageState extends State<MainPage> with TickerProviderStateMixin {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   List<Widget> _list =  [
-    MainRepoPage(),
+    MainBookPage(),
     MainWorkPage(),
     MainMePage()
   ];

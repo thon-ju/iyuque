@@ -177,10 +177,11 @@ Map<String, dynamic> _$VersionToJson(Version instance) {
   return val;
 }
 
-Repo _$RepoFromJson(Map<String, dynamic> json) {
-  return Repo(
+Book _$BookFromJson(Map<String, dynamic> json) {
+  return Book(
     name: json['name'] as String,
   )
+    ..custom_id = json['custom_id'] as int
     ..id = json['id'] as int
     ..type = json['type'] as String
     ..slug = json['slug'] as String
@@ -191,11 +192,12 @@ Repo _$RepoFromJson(Map<String, dynamic> json) {
     ..public = json['public'] as int
     ..likes_count = json['likes_count'] as int
     ..watches_count = json['watches_count'] as int
+    ..doc_count = json['doc_count'] as int
     ..created_at = json['created_at'] as String
     ..updated_at = json['updated_at'] as String;
 }
 
-Map<String, dynamic> _$RepoToJson(Repo instance) {
+Map<String, dynamic> _$BookToJson(Book instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -204,6 +206,7 @@ Map<String, dynamic> _$RepoToJson(Repo instance) {
     }
   }
 
+  writeNotNull('custom_id', instance.custom_id);
   writeNotNull('id', instance.id);
   writeNotNull('type', instance.type);
   writeNotNull('slug', instance.slug);
@@ -215,6 +218,7 @@ Map<String, dynamic> _$RepoToJson(Repo instance) {
   writeNotNull('public', instance.public);
   writeNotNull('likes_count', instance.likes_count);
   writeNotNull('watches_count', instance.watches_count);
+  writeNotNull('doc_count', instance.doc_count);
   writeNotNull('created_at', instance.created_at);
   writeNotNull('updated_at', instance.updated_at);
   return val;
@@ -224,7 +228,9 @@ Doc _$DocFromJson(Map<String, dynamic> json) {
   return Doc(
     title: json['title'] as String,
   )
+    ..custom_id = json['custom_id'] as int
     ..id = json['id'] as int
+    ..book_id = json['book_id'] as int
     ..slug = json['slug'] as String
     ..user_id = json['user_id'] as int
     ..format = json['format'] as String
@@ -235,7 +241,10 @@ Doc _$DocFromJson(Map<String, dynamic> json) {
     ..watches_count = json['watches_count'] as int
     ..content_updated_at = json['content_updated_at'] as String
     ..created_at = json['created_at'] as String
-    ..updated_at = json['updated_at'] as String;
+    ..updated_at = json['updated_at'] as String
+    ..book = json['book'] == null
+        ? null
+        : Book.fromJson(json['book'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$DocToJson(Doc instance) {
@@ -247,7 +256,9 @@ Map<String, dynamic> _$DocToJson(Doc instance) {
     }
   }
 
+  writeNotNull('custom_id', instance.custom_id);
   writeNotNull('id', instance.id);
+  writeNotNull('book_id', instance.book_id);
   writeNotNull('slug', instance.slug);
   writeNotNull('title', instance.title);
   writeNotNull('user_id', instance.user_id);
@@ -260,6 +271,7 @@ Map<String, dynamic> _$DocToJson(Doc instance) {
   writeNotNull('content_updated_at', instance.content_updated_at);
   writeNotNull('created_at', instance.created_at);
   writeNotNull('updated_at', instance.updated_at);
+  writeNotNull('book', instance.book);
   return val;
 }
 
@@ -267,7 +279,9 @@ DocDetail _$DocDetailFromJson(Map<String, dynamic> json) {
   return DocDetail(
     title: json['title'] as String,
   )
+    ..custom_id = json['custom_id'] as int
     ..id = json['id'] as int
+    ..book_id = json['book_id'] as int
     ..slug = json['slug'] as String
     ..user_id = json['user_id'] as int
     ..format = json['format'] as String
@@ -282,7 +296,10 @@ DocDetail _$DocDetailFromJson(Map<String, dynamic> json) {
     ..watches_count = json['watches_count'] as int
     ..content_updated_at = json['content_updated_at'] as String
     ..created_at = json['created_at'] as String
-    ..updated_at = json['updated_at'] as String;
+    ..updated_at = json['updated_at'] as String
+    ..book = json['book'] == null
+        ? null
+        : Book.fromJson(json['book'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$DocDetailToJson(DocDetail instance) {
@@ -294,7 +311,9 @@ Map<String, dynamic> _$DocDetailToJson(DocDetail instance) {
     }
   }
 
+  writeNotNull('custom_id', instance.custom_id);
   writeNotNull('id', instance.id);
+  writeNotNull('book_id', instance.book_id);
   writeNotNull('slug', instance.slug);
   writeNotNull('title', instance.title);
   writeNotNull('user_id', instance.user_id);
@@ -311,5 +330,6 @@ Map<String, dynamic> _$DocDetailToJson(DocDetail instance) {
   writeNotNull('content_updated_at', instance.content_updated_at);
   writeNotNull('created_at', instance.created_at);
   writeNotNull('updated_at', instance.updated_at);
+  writeNotNull('book', instance.book);
   return val;
 }

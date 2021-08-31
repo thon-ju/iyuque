@@ -7,7 +7,8 @@ import 'package:url_launcher/url_launcher.dart';
 class NavigatorUtil {
 
   static void pushPage(BuildContext context, Widget page, {String pageName}) {
-    if (context == null || page == null || ObjectUtil.isEmpty(pageName)) return;
+    if (context == null || page == null) return;
+
     Navigator.push(context, MaterialPageRoute<void>(builder: (ctx) => page));
   }
 

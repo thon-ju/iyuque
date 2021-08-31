@@ -4,9 +4,8 @@ import 'package:my_yuque/components/blocs/application_bloc.dart';
 import 'package:my_yuque/components/blocs/bloc_provider.dart';
 import 'package:my_yuque/net/dio_util.dart';
 import 'package:my_yuque/net/http_api.dart';
-import 'package:my_yuque/res/strings.dart';
+import 'package:my_yuque/res/styles.dart';
 import 'package:my_yuque/util/utils.dart';
-import 'package:my_yuque/views/main_doc_page.dart';
 
 class MainWorkPage extends StatefulWidget {
 
@@ -51,7 +50,7 @@ class MainWorkPageState extends State<MainWorkPage> with SingleTickerProviderSta
 
     return Scaffold(
       key: _scaffoldKey,
-      body: MainDocPage(labelId: Ids.titleDoc,),
+      body: Gaps.empty,
     );
   }
 }
