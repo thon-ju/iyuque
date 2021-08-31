@@ -1,5 +1,5 @@
 name: my_yuque
-description: 语雀客户端
+description: 我的语雀客户端
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_yuque/common/common.dart';
 import 'package:my_yuque/components/blocs/application_bloc.dart';
 import 'package:my_yuque/components/blocs/bloc_provider.dart';
@@ -34,18 +33,19 @@ class SyncDataPageState extends State<SyncDataPage> {
     return Scaffold(
       appBar: MeAppBar(
         title: const Text('数据同步'),
-        actions: [
-          IconButton(
-              onPressed: () async{
-                bloc.sendAppEvent(Constant.event_type_sync_begin);
-                showToast('后台自动同步');
-              },
-              icon: Icon(FontAwesomeIcons.sync)
-          )
-        ],
       ),
       body: SafeArea(
         child: Gaps.empty,
+      ),
+      bottomNavigationBar: Expanded(
+        child: ElevatedButton(
+          child: Text('同步'),
+          onPressed: () {
+            bloc.sendAppEvent(Constant.event_type_sync_begin);
+            showToast('后台自动同步');
+          },
+
+        ),
       ),
     );
   }

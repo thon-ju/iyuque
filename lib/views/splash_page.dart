@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:my_yuque/common/common.dart';
 import 'package:my_yuque/common/sp_helper.dart';
 import 'package:my_yuque/model/models.dart';
+import 'package:my_yuque/net/dio_util.dart';
+import 'package:my_yuque/net/http_api.dart';
 import 'package:my_yuque/net/http_utils.dart';
 import 'package:my_yuque/res/colors.dart';
 import 'package:my_yuque/util/navigator_util.dart';
@@ -21,11 +23,10 @@ class SplashPage extends StatefulWidget {
 
 class SplashPageState extends State<SplashPage> {
   TimerUtil _timerUtil;
+  String oauthCode;
 
   List<String> _guideList = [
-//    Utils.getImgPath('guide1'),
-//    Utils.getImgPath('guide2'),
-//    Utils.getImgPath('guide3'),
+
   ];
 
   List<Widget> _bannerList = new List();
@@ -155,8 +156,38 @@ class SplashPageState extends State<SplashPage> {
     _timerUtil.startCountDown();
   }
 
+  Future _login() async {
+    oauthCode = SpUtil.getString(OAuthConfig.keyCode, defValue: Utils.getRandomString(40));
+    SpUtil.putString(OAuthConfig.keyCode, oauthCode);
+
+    Map<String, dynamic> formData = {'client_id': OAuthConfig.clientId, 'code': oauthCode, 'grant_type':'client_code'};
+    DioUtil().requestR(Method.post, OAuthConfig.tokenUrl, data: formData).then((resp){
+      Map<String, dynamic> map = resp.data;
+      if(map['access_token'].toString().isNotEmpty){
+        SpUtil.putString(OAuthConfig.keyToken, map['access_token']);
+
+        DioUtil().requestR(Method.get, Api.USER_INFO, data: formData).then((respUser){
+          Map<String, dynamic> userMap = respUser.data;
+
+          SpUtil.putObject(Constant.keyUserInfo, userMap['data']);
+          SpUtil.putInt(Constant.keyUserId, userMap['data']['id']);
+
+          Navigator.of(context).pushNamedAndRemoveUntil( "/home", (route) => false);
+        }).catchError((e){
+          Utils.showInModalBottomSheet(context, '获取用户信息失败');
+        });
+
+      }else{
+        // 登录失败
+        Navigator.of(context).pushNamed('/login');
+      }
+    }).catchError((e){
+      Navigator.of(context).pushNamed('/login');
+    });
+  }
+
   void _goMain() {
-    Navigator.of(context).pushReplacementNamed('/login');
+    _login();
   }
 
   Widget _buildSplashBg() {

@@ -16,6 +16,7 @@ import 'package:my_yuque/views/book/main_book_page.dart';
 import 'package:my_yuque/views/main_app_bar.dart';
 import 'package:my_yuque/views/main_recent_page.dart';
 import 'package:my_yuque/views/me/main_me_page.dart';
+import 'package:oktoast/oktoast.dart';
 
 class MainPage extends StatefulWidget {
 
@@ -97,6 +98,7 @@ class MainPageState extends State<MainPage> with TickerProviderStateMixin {
     }
 
     applicationBloc.sendAppEvent(Constant.event_type_sync_finish);
+    showToast('数据同步完成');
     return books.length;
   }
 

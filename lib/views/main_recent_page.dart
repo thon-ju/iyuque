@@ -1,6 +1,8 @@
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:my_yuque/common/common.dart';
+import 'package:my_yuque/components/blocs/application_bloc.dart';
+import 'package:my_yuque/components/blocs/bloc_provider.dart';
 import 'package:my_yuque/components/widgets.dart';
 import 'package:my_yuque/db/repo_helper.dart';
 import 'package:my_yuque/model/json_data.dart';
@@ -31,17 +33,26 @@ class MainRecentPageState extends State<MainRecentPage> with SingleTickerProvide
   @override
   void dispose() {
     super.dispose();
+    _initListener();
+  }
 
+  void _initListener() {
+    final ApplicationBloc applicationBloc = BlocProvider.of<ApplicationBloc>(context);
+    applicationBloc.appEventStream.listen((value) {
+      /// 数据同步完成后刷新
+      if(value == Constant.event_type_sync_finish){
+        if(AppConfig.isDebug) print('rebuild recent docs');
+        _initData();
+      }
+    });
   }
 
   _initData() async {
     List<Doc> list = await RepoHelper.instance.getRentDocs(SpUtil.getInt(Constant.keyUserId));
     setState(() {
-      docs = list;
+      docs = list??[];
     });
-
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +63,7 @@ class MainRecentPageState extends State<MainRecentPage> with SingleTickerProvide
           _initData();
           return null;
         },
-        child: docs==null?Gaps.empty: ListView.builder(
+        child: ListView.builder(
           padding: const EdgeInsets.all(8),
           itemCount: docs?.length,
           itemBuilder: (BuildContext context, int index) {

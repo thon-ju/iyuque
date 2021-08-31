@@ -74,7 +74,7 @@ class LoginOAuthPageState extends State<LoginOAuthPage> {
           SpUtil.putObject(Constant.keyUserInfo, userMap['data']);
           SpUtil.putInt(Constant.keyUserId, userMap['data']['id']);
 
-          Navigator.popAndPushNamed(context, "/home");
+          Navigator.of(context).pushNamedAndRemoveUntil( "/home", (route) => false);
         });
 
       }
