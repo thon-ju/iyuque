@@ -46,8 +46,7 @@ class MainBookPageState extends State<MainBookPage> {
 
     list.forEach((book){
       widgets.add(_OpenContainerWrapper(
-        model: book,
-        transitionType: _transitionType,
+        detailPage: MainDocPage(model: book,),
         closedBuilder: (context, openContainer) {
           return _DetailsListTile(
             openContainer: openContainer,
@@ -91,18 +90,17 @@ class MainBookPageState extends State<MainBookPage> {
 }
 
 class _OpenContainerWrapper extends StatelessWidget {
-  const _OpenContainerWrapper({this.closedBuilder, this.transitionType, this.model});
+  const _OpenContainerWrapper({this.closedBuilder, this.detailPage});
 
   final CloseContainerBuilder closedBuilder;
-  final ContainerTransitionType transitionType;
-  final Book model;
+  final Widget detailPage;
 
   @override
   Widget build(BuildContext context) {
     return OpenContainer<bool>(
-      transitionType: transitionType,
+      transitionType: ContainerTransitionType.fade,
       openBuilder: (context, openContainer) {
-        return MainDocPage(model: model,);
+        return detailPage;
       },
       tappable: false,
       closedBuilder: closedBuilder,
