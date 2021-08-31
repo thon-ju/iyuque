@@ -192,7 +192,7 @@ Book _$BookFromJson(Map<String, dynamic> json) {
     ..public = json['public'] as int
     ..likes_count = json['likes_count'] as int
     ..watches_count = json['watches_count'] as int
-    ..doc_count = json['doc_count'] as int
+    ..items_count = json['items_count'] as int
     ..created_at = json['created_at'] as String
     ..updated_at = json['updated_at'] as String;
 }
@@ -218,7 +218,7 @@ Map<String, dynamic> _$BookToJson(Book instance) {
   writeNotNull('public', instance.public);
   writeNotNull('likes_count', instance.likes_count);
   writeNotNull('watches_count', instance.watches_count);
-  writeNotNull('doc_count', instance.doc_count);
+  writeNotNull('items_count', instance.items_count);
   writeNotNull('created_at', instance.created_at);
   writeNotNull('updated_at', instance.updated_at);
   return val;

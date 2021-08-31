@@ -7,9 +7,10 @@ class Constant {
 
   static const int status_success = 0;
 
-  static const int type_sys_update = 1;
-  static const int type_menu_update = 2;
-  static const int type_chat_update = 3;
+  static const int event_type_sys_update = 1;
+  static const int event_type_sync_begin = 2;
+  static const int event_type_sync_finish = 3;
+
   static const String key_theme_color = 'key_theme_color';
   static const String key_guide = 'key_guide';
   static const String key_splash_model = 'key_splash_models';

@@ -2,13 +2,20 @@ import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:my_yuque/common/common.dart';
+import 'package:my_yuque/components/blocs/application_bloc.dart';
+import 'package:my_yuque/components/blocs/bloc_provider.dart';
+import 'package:my_yuque/db/repo_helper.dart';
+import 'package:my_yuque/model/json_data.dart';
+import 'package:my_yuque/net/dio_util.dart';
+import 'package:my_yuque/net/http_api.dart';
 import 'package:my_yuque/res/dimens.dart';
 import 'package:my_yuque/util/theme_utils.dart';
 import 'package:my_yuque/util/utils.dart';
+import 'package:my_yuque/views/book/main_book_page.dart';
 import 'package:my_yuque/views/main_app_bar.dart';
-import 'package:my_yuque/views/main_book_page.dart';
-import 'package:my_yuque/views/main_me_page.dart';
-import 'package:my_yuque/views/main_work_page.dart';
+import 'package:my_yuque/views/main_recent_page.dart';
+import 'package:my_yuque/views/me/main_me_page.dart';
 
 class MainPage extends StatefulWidget {
 
@@ -18,16 +25,17 @@ class MainPage extends StatefulWidget {
 
 class MainPageState extends State<MainPage> with TickerProviderStateMixin {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  int userId = SpUtil.getInt(Constant.keyUserId);
 
   List<Widget> _list =  [
     MainBookPage(),
-    MainWorkPage(),
+    MainRecentPage(),
     MainMePage()
   ];
   int _currentIndex = 0;
   static List tabData = [
-    {'text': '知识库', 'icon': Icon(FontAwesomeIcons.building)},
-    {'text': '快捷入口', 'icon': Icon(FontAwesomeIcons.search)},
+    {'text': '知识库', 'icon': Icon(FontAwesomeIcons.book)},
+    {'text': '最近', 'icon': Icon(FontAwesomeIcons.heartbeat)},
     {'text': '我的', 'icon': Icon(FontAwesomeIcons.user)},
   ];
 
@@ -35,9 +43,8 @@ class MainPageState extends State<MainPage> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    LogUtil.e("MainPage init......");
-
     super.initState();
+    _initListener();
 
     for (int i = 0; i < tabData.length; i++) {
       _myTabs.add(BottomNavigationBarItem(
@@ -48,7 +55,49 @@ class MainPageState extends State<MainPage> with TickerProviderStateMixin {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Utils.checkVersion(context, true, false);
+
+      _syncData();
     });
+  }
+
+  void _initListener() {
+    final ApplicationBloc applicationBloc = BlocProvider.of<ApplicationBloc>(context);
+    applicationBloc.appEventStream.listen((value) {
+      if(value == Constant.event_type_sync_begin){
+        _syncData();
+      }
+    });
+  }
+
+  // 更新知识库及文档目录、文档详情
+  Future<int> _syncData() async {
+    final ApplicationBloc applicationBloc = BlocProvider.of<ApplicationBloc>(context);
+    int startTime = DateTime.now().millisecondsSinceEpoch;
+
+    List<Book> books = [];
+
+    var respBooks = await DioUtil().requestR(Method.get, '${Api.BASE_URL}/users/$userId/repos', data: {});
+    books = respBooks.data['data'].map<Book>((e){return Book.fromJson(e);}).toList();
+    await RepoHelper.instance.initBooks(books);
+
+    books.forEach((book) async {
+      var respDocs = await DioUtil().request(Method.get, "${Api.BASE_URL}/repos/${book.id}/docs", data: {});
+      List<Doc> docs = respDocs.data['data'].map<Doc>((e){return Doc.fromJson(e);}).toList();
+      await RepoHelper.instance.initDocs(book, docs);
+
+      docs.forEach((doc) async {
+        var respDocDetail = await DioUtil().requestR(Method.get, '${Api.BASE_URL}/repos/${book.namespace}/docs/${doc.slug}', data: {});
+        DocDetail docDetail = DocDetail.fromJson(respDocDetail.data['data']);
+        await RepoHelper.instance.initDocDetail(book, docDetail);
+      });
+    });
+
+    if(AppConfig.isDebug){
+      print("sync all data time：${DateTime.now().millisecondsSinceEpoch - startTime}");
+    }
+
+    applicationBloc.sendAppEvent(Constant.event_type_sync_finish);
+    return books.length;
   }
 
   @override

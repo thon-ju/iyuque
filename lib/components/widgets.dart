@@ -118,7 +118,7 @@ class InputTitle extends StatelessWidget {
             Expanded(
               child: Padding(
                 padding: EdgeInsets.fromLTRB(showIcon==true?0:10, 8, 0, 8),
-                child: Text(title??'', style: TextStyles.textSize14,),
+                child: Text(title??'', style: TextStyles.listTitle,),
               ),
             ),
             showIcon==true?SizedBox(

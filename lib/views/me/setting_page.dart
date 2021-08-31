@@ -57,7 +57,7 @@ class SettingPage extends StatelessWidget {
                     return new InkWell(
                       onTap: () {
                         SpUtil.putString(Constant.key_theme_color, key);
-                        bloc.sendAppEvent(Constant.type_sys_update);
+                        bloc.sendAppEvent(Constant.event_type_sys_update);
                       },
                       child: new Container(
                         margin: EdgeInsets.all(5.0),

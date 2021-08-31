@@ -10,7 +10,7 @@ class DbUtil{
 
   final String dropTableRepo= 'DROP TABLE IF EXISTS $tableBook';
   final String createTableRepo = 'CREATE TABLE $tableBook (custom_id INTEGER PRIMARY KEY AUTOINCREMENT, id INTEGER, type TEXT, slug TEXT, name TEXT, '
-      'namespace TEXT, user_id INTEGER, description TEXT, creator_id INTEGER, public INTEGER, likes_count INTEGER, watches_count INTEGER, '
+      'namespace TEXT, user_id INTEGER, description TEXT, creator_id INTEGER, public INTEGER, likes_count INTEGER, watches_count INTEGER, items_count INTEGER, '
       'created_at TEXT, updated_at TEXT )';
 
   final String dropTableDoc = "DROP TABLE IF EXISTS $tableDoc";

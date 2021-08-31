@@ -1,10 +1,10 @@
 
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_yuque/common/common.dart';
 import 'package:my_yuque/common/sp_helper.dart';
 import 'package:my_yuque/components/me_app_bar.dart';
-import 'package:my_yuque/components/text_field.dart';
 import 'package:my_yuque/net/dio_util.dart';
 import 'package:my_yuque/net/http_api.dart';
 import 'package:my_yuque/res/colors.dart';
@@ -13,11 +13,6 @@ import 'package:my_yuque/util/utils.dart';
 import 'package:my_yuque/views/login/login_oauth.dart';
 import 'package:progress_hud/progress_hud.dart';
 
-import '../../components/my_button.dart';
-
-/// 409回到登录时的上下文
-BuildContext globalContext;
-
 class LoginPage extends StatefulWidget {
   @override
   State createState() => new LoginPageState();
@@ -25,11 +20,6 @@ class LoginPage extends StatefulWidget {
 
 class LoginPageState extends State<LoginPage> {
   ProgressHUD _progressHUD;
-  final FocusNode _nodeText1 = FocusNode();
-  final FocusNode _nodeText2 = FocusNode();
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-  bool _isClick = false;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   String oauthCode;
 
@@ -37,10 +27,6 @@ class LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    globalContext = context;
-
-    _nameController.addListener(_verify);
-    _passwordController.addListener(_verify);
 
     _progressHUD = new ProgressHUD(
       backgroundColor: Colors.black12,
@@ -53,37 +39,10 @@ class LoginPageState extends State<LoginPage> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) => _autoLogin());
   }
-
-  void _verify(){
-    String name = _nameController.text;
-    String password = _passwordController.text;
-    bool isClick = true;
-    if (name.isEmpty || name.length < 1) {
-      isClick = false;
-    }
-    if (password.isEmpty || password.length < 1) {
-      isClick = false;
-    }
-
-    /// 状态不一样在刷新，避免重复不必要的setState
-    if (isClick != _isClick){
-      setState(() {
-        _isClick = isClick;
-      });
-    }
-  }
-
   _autoLogin(){
     oauthCode = SpUtil.getString(OAuthConfig.keyCode, defValue: Utils.getRandomString(40));
     SpUtil.putString(OAuthConfig.keyCode, oauthCode);
     _login(oauthCode: oauthCode);
-  }
-
-  _submitLogin(){
-    String name = _nameController.text;
-    String password = _passwordController.text;
-
-    _autoLogin();
   }
 
   Future _login({oauthCode}) async {
@@ -136,50 +95,21 @@ class LoginPageState extends State<LoginPage> {
                 Gaps.vGap15,
                 Gaps.vGap15,
                 Gaps.vGap15,
-                const Text(
-                  "欢迎登录",
-                  style: TextStyles.textBold26,
-                ),
                 Gaps.vGap15,
-                MyTextField(
-                  key: const Key('phone'),
-                  focusNode: _nodeText1,
-                  controller: _nameController,
-                  maxLength: 18,
-                  hintText: "请输入账号",
-                ),
                 Gaps.vGap10,
-                MyTextField(
-                  key: const Key('password'),
-                  keyName: 'password',
-                  focusNode: _nodeText2,
-                  isInputPwd: true,
-                  controller: _passwordController,
-                  maxLength: 18,
-                  hintText: "请输入密码",
-                ),
                 Gaps.vGap15,
                 Gaps.vGap15,
-                MyButton(
-                  key: const Key('login'),
-                  onPressed: _isClick ?(){
-                    _submitLogin();
-                  }: null,
-                  text: "登录",
-                ),
                 Gaps.vGap10,
                 Gaps.vGap10,
                 Gaps.vGap15,
                 Container(
                     alignment: Alignment.center,
-                    child: GestureDetector(
-                      child: Text(
+                    child: FloatingActionButton.extended(
+                      icon: Icon(FontAwesomeIcons.safari),
+                      label: Text(
                         '使用OAuth方式登录',
-                        style: TextStyle(
-                            color: Theme.of(context).primaryColor
-                        ),
                       ),
-                      onTap: () async {
+                      onPressed: () async {
                         Navigator.push(context, MaterialPageRoute(builder: (context) =>LoginOAuthPage(),),);
                       },
                     )

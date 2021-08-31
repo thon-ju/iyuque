@@ -23,18 +23,10 @@ class RepoHelper{
   /// 同步所有文档库
   Future initBooks(List<Book> books) async {
     ///先删除
-    var db = await _dbUtil.db;
-    int deleteCount = await db.rawDelete("DELETE FROM ${DbUtil.tableBook}");
-    if(AppConfig.isDebug){
-      print("initLocalBooks delete count: $deleteCount");
-    }
-
-    var batch = db.batch();
     int startTime = DateTime.now().millisecondsSinceEpoch;
-    books.forEach((book){
-      batch.insert(DbUtil.tableBook, book.toJson());
+    books.forEach((book) async {
+      await saveBook(book);
     });
-    batch.commit();
 
     if(AppConfig.isDebug){
       print("initLocalBooks insert count: ${books.length}");
@@ -79,38 +71,23 @@ class RepoHelper{
     db.insert(DbUtil.tableDocDetail, map);
   }
 
-  /// 统计知识库文档数量
-  Future<List<Book>> groupBook() async{
-    var db = await _dbUtil.db;
-    List<Map> maps = await db.rawQuery("SELECT r.name, r.id, count(*) as doc_count FROM ${DbUtil.tableBook} r left join ${DbUtil.tableDoc} d on r.id=d.book_id group by r.id");
-    if (maps == null || maps.length == 0) {
-      return null;
-    }
-
-    List<Book> list = [];
-    maps.forEach((it){
-      list.add(Book.fromJson(it));
-    });
-
-    return list;
-  }
 
   /// 查询知识库是否存在
-  Future<bool> isExist(int id) async{
+  Future<bool> isBookExist(int id) async{
     var db = await _dbUtil.db;
     int count = Sqflite.firstIntValue(await db.rawQuery("SELECT COUNT(*) FROM ${DbUtil.tableBook} WHERE id=$id"));
     return count > 0;
   }
 
   /// 保存知识库
-  Future<int> saveRepo(Book book)async{
+  Future<int> saveBook(Book book)async{
     if(book == null){
       return 0;
     }
 
     var db = await _dbUtil.db;
 
-    bool exist = await isExist(book.id);
+    bool exist = await isBookExist(book.id);
     if(exist){
       return db.update(DbUtil.tableBook, book.toJson(), where: "id=?", whereArgs: [book.id]);
     }else{
@@ -119,9 +96,9 @@ class RepoHelper{
   }
 
   /// 获取知识库列表
-  Future<List<Book>> getBooks() async{
+  Future<List<Book>> getBooks(int userId) async{
     var db = await _dbUtil.db;
-    List<Map> maps = await db.rawQuery("SELECT * FROM ${DbUtil.tableBook}");
+    List<Map> maps = await db.rawQuery("SELECT * FROM ${DbUtil.tableBook} where user_id=$userId ");
     if (maps == null || maps.length == 0) {
       return null;
     }
@@ -138,6 +115,22 @@ class RepoHelper{
   Future<List<Doc>> getDocs(int bookId) async{
     var db = await _dbUtil.db;
     List<Map> maps = await db.rawQuery("SELECT * FROM ${DbUtil.tableDoc} WHERE book_id = $bookId");
+    if (maps == null || maps.length == 0) {
+      return null;
+    }
+
+    List<Doc> list = [];
+    maps.forEach((it){
+      list.add(Doc.fromJson(it));
+    });
+
+    return list;
+  }
+
+  /// 获取最新的文档列表
+  Future<List<Doc>> getRentDocs(int userId) async{
+    var db = await _dbUtil.db;
+    List<Map> maps = await db.rawQuery("SELECT * FROM ${DbUtil.tableDoc} where user_id=$userId order by updated_at desc limit 20");
     if (maps == null || maps.length == 0) {
       return null;
     }

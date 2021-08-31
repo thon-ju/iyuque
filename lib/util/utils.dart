@@ -241,14 +241,7 @@ class Utils {
           child: const Text("您确定要退出登录吗？", style: TextStyles.textSize16),
         ),
         onPressed: (){
-
-          Map<String, dynamic> userInfo = SpUtil.getObject(Constant.keyUserInfo);
-          String userAccount = userInfo['loginName'];
           SpUtil.clear();
-
-          Map<String, dynamic> newMap = new Map<String, dynamic>();
-          newMap['loginName'] = userAccount;
-          SpUtil.putObject(Constant.keyUserInfo, newMap);
 
           final MainBloc bloc = BlocProvider.of<MainBloc>(context);
           bloc.clear();

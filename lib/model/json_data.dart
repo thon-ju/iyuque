@@ -141,7 +141,7 @@ class Book{
   int public; 	// 公开状态 [1 - 公开, 0 - 私密]
   int likes_count; 	// 喜欢数量
   int watches_count; //  订阅数量
-  int doc_count; //  文档数量
+  int items_count; //  文档数量
   String created_at ; // 创建时间
   String updated_at ;	// 更新时间
 

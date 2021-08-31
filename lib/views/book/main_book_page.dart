@@ -1,11 +1,13 @@
 import 'package:animations/animations.dart';
+import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:my_yuque/common/common.dart';
 import 'package:my_yuque/components/blocs/application_bloc.dart';
 import 'package:my_yuque/components/blocs/bloc_provider.dart';
 import 'package:my_yuque/db/repo_helper.dart';
 import 'package:my_yuque/model/json_data.dart';
-import 'package:my_yuque/views/main_doc_page.dart';
+import 'package:my_yuque/views/book/main_doc_page.dart';
 
 class MainBookPage extends StatefulWidget {
 
@@ -16,7 +18,6 @@ class MainBookPage extends StatefulWidget {
 }
 
 class MainBookPageState extends State<MainBookPage> {
-  ContainerTransitionType _transitionType = ContainerTransitionType.fade;
   List<Widget> books = [];
 
   @override
@@ -32,8 +33,8 @@ class MainBookPageState extends State<MainBookPage> {
   void _initListener() {
     final ApplicationBloc applicationBloc = BlocProvider.of<ApplicationBloc>(context);
     applicationBloc.appEventStream.listen((value) {
-      /// type_sys_update更新主题
-      if(value == 4){
+      /// 数据同步完成后刷新
+      if(value == Constant.event_type_sync_finish){
         print('rebuild books');
         _loadBooks();
       }
@@ -41,21 +42,24 @@ class MainBookPageState extends State<MainBookPage> {
   }
 
   _loadBooks() async {
-    List<Book> list = await RepoHelper.instance.groupBook();
+    List<Book> list = await RepoHelper.instance.getBooks(SpUtil.getInt(Constant.keyUserId));
     List<Widget> widgets = [];
 
-    list.forEach((book){
-      widgets.add(_OpenContainerWrapper(
-        detailPage: MainDocPage(model: book,),
-        closedBuilder: (context, openContainer) {
-          return _DetailsListTile(
-            openContainer: openContainer,
-            title: book.name,
-            docCount: book.doc_count,
-          );
-        },
-      )) ;
-    });
+    if(ObjectUtil.isNotEmpty(list)){
+      list.forEach((book){
+        widgets.add(_OpenContainerWrapper(
+          detailPage: MainDocPage(model: book,),
+          closedBuilder: (context, openContainer) {
+            return _DetailsListTile(
+              openContainer: openContainer,
+              title: book.name,
+              itemsCount: book.items_count,
+            );
+          },
+        )) ;
+      });
+    }
+
 
     setState(() {
       books = widgets;
@@ -109,11 +113,11 @@ class _OpenContainerWrapper extends StatelessWidget {
 }
 
 class _DetailsListTile extends StatelessWidget {
-  const _DetailsListTile({this.openContainer, this.title, this.docCount});
+  const _DetailsListTile({this.openContainer, this.title, this.itemsCount});
 
   final VoidCallback openContainer;
   final String title;
-  final int docCount;
+  final int itemsCount;
 
   @override
   Widget build(BuildContext context) {
@@ -148,7 +152,7 @@ class _DetailsListTile extends StatelessWidget {
                       height: 5,
                     ),
                     Text(
-                      '共${docCount??0}篇',
+                      '共${itemsCount??0}篇',
                       style: textTheme.caption,
                     ),
                   ],
@@ -157,64 +161,6 @@ class _DetailsListTile extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _DetailsPage extends StatelessWidget {
-  const _DetailsPage();
-
-  @override
-  Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          '测试',
-        ),
-      ),
-      body: ListView(
-        children: [
-          Container(
-            color: Colors.black38,
-            height: 250,
-            child: Padding(
-              padding: const EdgeInsets.all(70),
-              child: Image.asset(
-                'placeholders/placeholder_image.png',
-                package: 'flutter_gallery_assets',
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '我是测试',
-                  style: textTheme.headline5.copyWith(
-                    color: Colors.black54,
-                    fontSize: 30,
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  '我是内容',
-                  style: textTheme.bodyText2.copyWith(
-                    color: Colors.black54,
-                    height: 1.5,
-                    fontSize: 16,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
       ),
     );
   }
