@@ -12,6 +12,7 @@ import 'package:my_yuque/res/strings.dart';
 import 'package:my_yuque/res/styles.dart';
 import 'package:my_yuque/util/navigator_util.dart';
 import 'package:my_yuque/util/utils.dart';
+import 'package:my_yuque/views/me/about_page.dart';
 import 'package:my_yuque/views/me/setting_page.dart';
 import 'package:my_yuque/views/me/sync_data_page.dart';
 
@@ -115,7 +116,7 @@ class MainMePageState extends State<MainMePage> {
           })),
           Gaps.vGap10,
           ComArrowItem(ComModel(title: '关于', extra: '', icon: FontAwesomeIcons.cog, onTap: (){
-            NavigatorUtil.pushPage(context, SettingPage(), pageName: Ids.titleAbout);
+            NavigatorUtil.pushPage(context, AboutPage(), pageName: Ids.titleAbout);
           })),
         ],
       ),

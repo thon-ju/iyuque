@@ -41,7 +41,7 @@ class SyncDataPageState extends State<SyncDataPage> {
         child: ElevatedButton(
           child: Text('同步'),
           onPressed: () {
-            bloc.sendAppEvent(Constant.event_type_sync_begin);
+            bloc.sendAppEvent(EventConfig.event_sync_begin);
             showToast('后台自动同步');
           },
 

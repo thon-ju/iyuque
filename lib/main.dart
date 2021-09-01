@@ -100,8 +100,11 @@ class MyAppState extends State<MyApp> {
   void _initListener() {
     final ApplicationBloc bloc = BlocProvider.of<ApplicationBloc>(context);
     bloc.appEventStream.listen((value) {
-      LogUtil.e("sys event get......");
-      _loadLocale();
+      if(value == EventConfig.event_sys_update){
+        LogUtil.e("sys event get......");
+        _loadLocale();
+      }
+
     });
   }
 

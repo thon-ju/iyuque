@@ -7,9 +7,7 @@ class Constant {
 
   static const int status_success = 0;
 
-  static const int event_type_sys_update = 1;
-  static const int event_type_sync_begin = 2;
-  static const int event_type_sync_finish = 3;
+
 
   static const String key_theme_color = 'key_theme_color';
   static const String key_guide = 'key_guide';
@@ -35,4 +33,12 @@ class LoadStatus {
   static const int loading = 0;
   static const int success = 1;
   static const int empty = 2;
+}
+
+class EventConfig{
+  static const int event_sys_update = 1;
+
+  static const int event_sync_begin = 2;
+  static const int event_sync_book_finish = 3;
+  static const int event_sync_doc_finish = 4;
 }

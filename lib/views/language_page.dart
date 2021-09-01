@@ -72,7 +72,7 @@ class _LanguagePageState extends State<LanguagePage> {
                       ObjectUtil.isEmpty(_currentLanguage.languageCode)
                           ? null
                           : _currentLanguage);
-                  bloc.sendAppEvent(Constant.event_type_sys_update);
+                  bloc.sendAppEvent(EventConfig.event_sys_update);
                   Navigator.pop(context);
                 },
               ),

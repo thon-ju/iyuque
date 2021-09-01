@@ -64,7 +64,7 @@ class MainPageState extends State<MainPage> with TickerProviderStateMixin {
   void _initListener() {
     final ApplicationBloc applicationBloc = BlocProvider.of<ApplicationBloc>(context);
     applicationBloc.appEventStream.listen((value) {
-      if(value == Constant.event_type_sync_begin){
+      if(value == EventConfig.event_sync_begin){
         _syncData();
       }
     });
@@ -80,6 +80,8 @@ class MainPageState extends State<MainPage> with TickerProviderStateMixin {
     var respBooks = await DioUtil().requestR(Method.get, '${Api.BASE_URL}/users/$userId/repos', data: {});
     books = respBooks.data['data'].map<Book>((e){return Book.fromJson(e);}).toList();
     await RepoHelper.instance.initBooks(books);
+
+    applicationBloc.sendAppEvent(EventConfig.event_sync_book_finish);
 
     await Future.forEach(books, (book) async {
       var respDocs = await DioUtil().request(Method.get, "${Api.BASE_URL}/repos/${book.id}/docs", data: {});
@@ -97,7 +99,7 @@ class MainPageState extends State<MainPage> with TickerProviderStateMixin {
       print("sync all data time：${DateTime.now().millisecondsSinceEpoch - startTime}");
     }
 
-    applicationBloc.sendAppEvent(Constant.event_type_sync_finish);
+    applicationBloc.sendAppEvent(EventConfig.event_sync_doc_finish);
     showToast('数据同步完成');
     return books.length;
   }

@@ -34,7 +34,7 @@ class MainBookPageState extends State<MainBookPage> {
     final ApplicationBloc applicationBloc = BlocProvider.of<ApplicationBloc>(context);
     applicationBloc.appEventStream.listen((value) {
       /// 数据同步完成后刷新
-      if(value == Constant.event_type_sync_finish){
+      if(value == EventConfig.event_sync_book_finish){
         if(AppConfig.isDebug) print('rebuild books');
         _loadBooks();
       }
