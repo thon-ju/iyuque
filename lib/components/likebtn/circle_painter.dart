@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_yuque/components/likebtn/like_button_util.dart';
+import 'package:iyuque/components/likebtn/like_button_util.dart';
 
 class CirclePainter extends CustomPainter {
   Paint circlePaint = new Paint();

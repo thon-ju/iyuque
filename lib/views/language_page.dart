@@ -2,13 +2,13 @@
 import 'package:fluintl/fluintl.dart';
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
-import 'package:my_yuque/common/common.dart';
-import 'package:my_yuque/common/sp_helper.dart';
-import 'package:my_yuque/components/blocs/application_bloc.dart';
-import 'package:my_yuque/components/blocs/bloc_provider.dart';
-import 'package:my_yuque/components/me_app_bar.dart';
-import 'package:my_yuque/model/models.dart';
-import 'package:my_yuque/res/strings.dart';
+import 'package:iyuque/common/common.dart';
+import 'package:iyuque/common/sp_helper.dart';
+import 'package:iyuque/components/blocs/application_bloc.dart';
+import 'package:iyuque/components/blocs/bloc_provider.dart';
+import 'package:iyuque/components/me_app_bar.dart';
+import 'package:iyuque/model/models.dart';
+import 'package:iyuque/res/strings.dart';
 
 class LanguagePage extends StatefulWidget {
   @override

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:my_yuque/res/colors.dart';
-import 'package:my_yuque/res/dimens.dart';
+import 'package:iyuque/res/colors.dart';
+import 'package:iyuque/res/dimens.dart';
 
 class TextStyles {
   static TextStyle listTitle = TextStyle(
@@ -117,7 +117,7 @@ class Gaps {
   static Widget vGap10 = new SizedBox(height: Dimens.gap_dp10);
   static Widget vGap15 = new SizedBox(height: Dimens.gap_dp15);
 
-  static Widget line = const Divider();
+  static Widget line = const Divider(height: 1,);
 
   static Widget vLine = const SizedBox(
     width: 0.6,

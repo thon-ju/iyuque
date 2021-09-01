@@ -1,6 +1,6 @@
 import 'package:flustars/flustars.dart';
-import 'package:my_yuque/common/common.dart';
-import 'package:my_yuque/model/models.dart';
+import 'package:iyuque/common/common.dart';
+import 'package:iyuque/model/models.dart';
 
 class SpHelper {
   /// T 用于区分存储类型

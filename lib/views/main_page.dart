@@ -2,20 +2,20 @@ import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:my_yuque/common/common.dart';
-import 'package:my_yuque/components/blocs/application_bloc.dart';
-import 'package:my_yuque/components/blocs/bloc_provider.dart';
-import 'package:my_yuque/db/repo_helper.dart';
-import 'package:my_yuque/model/json_data.dart';
-import 'package:my_yuque/net/dio_util.dart';
-import 'package:my_yuque/net/http_api.dart';
-import 'package:my_yuque/res/dimens.dart';
-import 'package:my_yuque/util/theme_utils.dart';
-import 'package:my_yuque/util/utils.dart';
-import 'package:my_yuque/views/book/main_book_page.dart';
-import 'package:my_yuque/views/main_app_bar.dart';
-import 'package:my_yuque/views/main_recent_page.dart';
-import 'package:my_yuque/views/me/main_me_page.dart';
+import 'package:iyuque/common/common.dart';
+import 'package:iyuque/components/blocs/application_bloc.dart';
+import 'package:iyuque/components/blocs/bloc_provider.dart';
+import 'package:iyuque/db/repo_helper.dart';
+import 'package:iyuque/model/json_data.dart';
+import 'package:iyuque/net/dio_util.dart';
+import 'package:iyuque/net/http_api.dart';
+import 'package:iyuque/res/dimens.dart';
+import 'package:iyuque/util/theme_utils.dart';
+import 'package:iyuque/util/utils.dart';
+import 'package:iyuque/views/book/main_book_page.dart';
+import 'package:iyuque/views/main_app_bar.dart';
+import 'package:iyuque/views/main_recent_page.dart';
+import 'package:iyuque/views/me/main_me_page.dart';
 import 'package:oktoast/oktoast.dart';
 
 class MainPage extends StatefulWidget {
@@ -72,35 +72,44 @@ class MainPageState extends State<MainPage> with TickerProviderStateMixin {
 
   // 更新知识库及文档目录、文档详情
   Future<int> _syncData() async {
-    final ApplicationBloc applicationBloc = BlocProvider.of<ApplicationBloc>(context);
-    int startTime = DateTime.now().millisecondsSinceEpoch;
-
     List<Book> books = [];
 
-    var respBooks = await DioUtil().requestR(Method.get, '${Api.BASE_URL}/users/$userId/repos', data: {});
-    books = respBooks.data['data'].map<Book>((e){return Book.fromJson(e);}).toList();
-    await RepoHelper.instance.initBooks(books);
+    int syncStatus = SpUtil.getInt(Constant.status_sync_data, defValue: 0);
+    if(syncStatus == 0){
+      SpUtil.putInt(Constant.status_sync_data, 1);
 
-    applicationBloc.sendAppEvent(EventConfig.event_sync_book_finish);
+      final ApplicationBloc applicationBloc = BlocProvider.of<ApplicationBloc>(context);
+      int startTime = DateTime.now().millisecondsSinceEpoch;
 
-    await Future.forEach(books, (book) async {
-      var respDocs = await DioUtil().request(Method.get, "${Api.BASE_URL}/repos/${book.id}/docs", data: {});
-      List<Doc> docs = respDocs.data['data'].map<Doc>((e){return Doc.fromJson(e);}).toList();
-      await RepoHelper.instance.initDocs(book, docs);
+      var respBooks = await DioUtil().requestR(Method.get, '${Api.BASE_URL}/users/$userId/repos', data: {});
+      books = respBooks.data['data'].map<Book>((e){return Book.fromJson(e);}).toList();
+      await RepoHelper.instance.initBooks(books);
 
-      await Future.forEach(docs, (doc) async {
-        var respDocDetail = await DioUtil().requestR(Method.get, '${Api.BASE_URL}/repos/${book.namespace}/docs/${doc.slug}', data: {});
-        DocDetail docDetail = DocDetail.fromJson(respDocDetail.data['data']);
-        await RepoHelper.instance.initDocDetail(book, docDetail);
+      applicationBloc.sendAppEvent(EventConfig.event_sync_book_finish);
+
+      await Future.forEach(books, (book) async {
+        var respDocs = await DioUtil().request(Method.get, "${Api.BASE_URL}/repos/${book.id}/docs", data: {});
+        List<Doc> docs = respDocs.data['data'].map<Doc>((e){return Doc.fromJson(e);}).toList();
+        await RepoHelper.instance.initDocs(book, docs);
+
+        await Future.forEach(docs, (doc) async {
+          var respDocDetail = await DioUtil().requestR(Method.get, '${Api.BASE_URL}/repos/${book.namespace}/docs/${doc.slug}', data: {});
+          DocDetail docDetail = DocDetail.fromJson(respDocDetail.data['data']);
+          await RepoHelper.instance.initDocDetail(book, docDetail);
+        });
       });
-    });
 
-    if(AppConfig.isDebug){
-      print("sync all data time：${DateTime.now().millisecondsSinceEpoch - startTime}");
+      if(AppConfig.isDebug){
+        print("sync all data time：${DateTime.now().millisecondsSinceEpoch - startTime}");
+      }
+
+      applicationBloc.sendAppEvent(EventConfig.event_sync_doc_finish);
+      SpUtil.putInt(Constant.status_sync_data, 0);
+      showToast('数据同步完成');
+    }else{
+      showToast('数据正在同步中，请稍后...');
     }
 
-    applicationBloc.sendAppEvent(EventConfig.event_sync_doc_finish);
-    showToast('数据同步完成');
     return books.length;
   }
 
@@ -121,6 +130,8 @@ class MainPageState extends State<MainPage> with TickerProviderStateMixin {
 
     return WillPopScope(
         onWillPop: (){
+          print('logout');
+          SpUtil.putInt(Constant.status_sync_data, 0);
           return Future.value(true);
         },
         child: Scaffold(

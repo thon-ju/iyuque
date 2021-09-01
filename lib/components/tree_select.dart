@@ -2,9 +2,9 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 import 'package:flutter/material.dart';
-import 'package:my_yuque/common/sp_helper.dart';
-import 'package:my_yuque/components/me_app_bar.dart';
-import 'package:my_yuque/res/colors.dart';
+import 'package:iyuque/common/sp_helper.dart';
+import 'package:iyuque/components/me_app_bar.dart';
+import 'package:iyuque/res/colors.dart';
 /// title:页面标题  selected：选中的节点  list：数据源
 class TreeSelect extends StatefulWidget {
   TreeSelect({this.title, this.selected, this.list, this.selectFormatter});

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:my_yuque/model/models.dart';
-import 'package:my_yuque/res/styles.dart';
-import 'package:my_yuque/util/navigator_util.dart';
+import 'package:iyuque/model/models.dart';
+import 'package:iyuque/res/styles.dart';
+import 'package:iyuque/util/navigator_util.dart';
 
 class ComArrowItem extends StatelessWidget {
   const ComArrowItem(this.model, {Key key}) : super(key: key);

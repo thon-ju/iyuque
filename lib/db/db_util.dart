@@ -3,7 +3,7 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DbUtil{
-  static const String databaseName = "my_yuque.db";
+  static const String databaseName = "iyuque.db";
   static const String tableBook = "yq_book";
   static const String tableDoc = "yq_doc";
   static const String tableDocDetail = "yq_doc_detail";
@@ -35,9 +35,6 @@ class DbUtil{
   _initDb() async{
     String basePath = await getDatabasesPath();
     String path = join(basePath, '$databaseName');
-
-    print("_onCreate db path: $path");
-
     Database db = await openDatabase(path, version: 1, onCreate: _onCreate, onUpgrade: _onUpgrade);
     return db;
 

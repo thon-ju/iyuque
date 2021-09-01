@@ -1,14 +1,14 @@
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
-import 'package:my_yuque/common/common.dart';
-import 'package:my_yuque/components/blocs/application_bloc.dart';
-import 'package:my_yuque/components/blocs/bloc_provider.dart';
-import 'package:my_yuque/components/widgets.dart';
-import 'package:my_yuque/db/repo_helper.dart';
-import 'package:my_yuque/model/json_data.dart';
-import 'package:my_yuque/res/colors.dart';
-import 'package:my_yuque/res/styles.dart';
-import 'package:my_yuque/util/utils.dart';
+import 'package:iyuque/common/common.dart';
+import 'package:iyuque/components/blocs/application_bloc.dart';
+import 'package:iyuque/components/blocs/bloc_provider.dart';
+import 'package:iyuque/components/widgets.dart';
+import 'package:iyuque/db/repo_helper.dart';
+import 'package:iyuque/model/json_data.dart';
+import 'package:iyuque/res/colors.dart';
+import 'package:iyuque/res/styles.dart';
+import 'package:iyuque/util/utils.dart';
 
 import 'book/main_doc_detail_page.dart';
 

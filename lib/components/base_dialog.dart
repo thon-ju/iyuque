@@ -1,10 +1,10 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:my_yuque/res/colors.dart';
-import 'package:my_yuque/res/dimens.dart';
-import 'package:my_yuque/res/styles.dart';
-import 'package:my_yuque/util/theme_utils.dart';
+import 'package:iyuque/res/colors.dart';
+import 'package:iyuque/res/dimens.dart';
+import 'package:iyuque/res/styles.dart';
+import 'package:iyuque/util/theme_utils.dart';
 
 /// 自定义dialog的模板
 class BaseDialog extends StatelessWidget{

@@ -1,6 +1,6 @@
 import 'package:fluintl/fluintl.dart';
 import 'package:flutter/material.dart';
-import 'package:my_yuque/util/navigator_util.dart';
+import 'package:iyuque/util/navigator_util.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebScaffold extends StatefulWidget {

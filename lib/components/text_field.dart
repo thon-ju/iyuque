@@ -5,10 +5,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:my_yuque/components/widgets.dart';
-import 'package:my_yuque/res/colors.dart';
-import 'package:my_yuque/res/dimens.dart';
-import 'package:my_yuque/res/styles.dart';
+import 'package:iyuque/components/widgets.dart';
+import 'package:iyuque/res/colors.dart';
+import 'package:iyuque/res/dimens.dart';
+import 'package:iyuque/res/styles.dart';
 
 /// 登录模块的输入框封装
 class MyTextField extends StatefulWidget {

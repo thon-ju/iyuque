@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:my_yuque/components/likebtn/like_button_util.dart';
+import 'package:iyuque/components/likebtn/like_button_util.dart';
 
 class DotPainter extends CustomPainter {
   final int dotCount;

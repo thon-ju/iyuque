@@ -2,10 +2,10 @@
 import 'package:fluintl/fluintl.dart';
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
-import 'package:my_yuque/components/me_app_bar.dart';
-import 'package:my_yuque/res/strings.dart';
-import 'package:my_yuque/res/styles.dart';
-import 'package:my_yuque/util/utils.dart';
+import 'package:iyuque/components/me_app_bar.dart';
+import 'package:iyuque/res/strings.dart';
+import 'package:iyuque/res/styles.dart';
+import 'package:iyuque/util/utils.dart';
 
 class SharePage extends StatelessWidget {
   @override

@@ -3,18 +3,18 @@ import 'package:fluintl/fluintl.dart';
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:my_yuque/common/common.dart';
-import 'package:my_yuque/common/sp_helper.dart';
-import 'package:my_yuque/components/blocs/application_bloc.dart';
-import 'package:my_yuque/components/blocs/bloc_provider.dart';
-import 'package:my_yuque/components/me_app_bar.dart';
-import 'package:my_yuque/model/models.dart';
-import 'package:my_yuque/res/colors.dart';
-import 'package:my_yuque/res/strings.dart';
-import 'package:my_yuque/res/styles.dart';
-import 'package:my_yuque/util/navigator_util.dart';
-import 'package:my_yuque/util/utils.dart';
-import 'package:my_yuque/views/language_page.dart';
+import 'package:iyuque/common/common.dart';
+import 'package:iyuque/common/sp_helper.dart';
+import 'package:iyuque/components/blocs/application_bloc.dart';
+import 'package:iyuque/components/blocs/bloc_provider.dart';
+import 'package:iyuque/components/me_app_bar.dart';
+import 'package:iyuque/model/models.dart';
+import 'package:iyuque/res/colors.dart';
+import 'package:iyuque/res/strings.dart';
+import 'package:iyuque/res/styles.dart';
+import 'package:iyuque/util/navigator_util.dart';
+import 'package:iyuque/util/utils.dart';
+import 'package:iyuque/views/language_page.dart';
 
 class SettingPage extends StatelessWidget {
 

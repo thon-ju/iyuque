@@ -1,9 +1,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:my_yuque/components/me_app_bar.dart';
-import 'package:my_yuque/res/styles.dart';
-import 'package:my_yuque/views/login/login_oauth.dart';
+import 'package:iyuque/components/me_app_bar.dart';
+import 'package:iyuque/res/styles.dart';
+import 'package:iyuque/views/login/login_oauth.dart';
 
 class LoginPage extends StatefulWidget {
   @override

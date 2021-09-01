@@ -1,7 +1,7 @@
 import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:my_yuque/components/web_scaffold.dart';
+import 'package:iyuque/components/web_scaffold.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class NavigatorUtil {

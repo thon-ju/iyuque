@@ -1,9 +1,9 @@
 import 'package:fluintl/fluintl.dart';
 import 'package:flutter/material.dart';
-import 'package:my_yuque/res/colors.dart';
-import 'package:my_yuque/res/strings.dart';
-import 'package:my_yuque/res/styles.dart';
-import 'package:my_yuque/util/utils.dart';
+import 'package:iyuque/res/colors.dart';
+import 'package:iyuque/res/strings.dart';
+import 'package:iyuque/res/styles.dart';
+import 'package:iyuque/util/utils.dart';
 
 class HeaderItem extends StatelessWidget {
   const HeaderItem(

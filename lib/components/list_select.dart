@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:my_yuque/res/colors.dart';
-import 'package:my_yuque/res/styles.dart';
-import 'package:my_yuque/util/utils.dart';
+import 'package:iyuque/res/colors.dart';
+import 'package:iyuque/res/styles.dart';
+import 'package:iyuque/util/utils.dart';
 
 
 

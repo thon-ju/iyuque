@@ -1,7 +1,7 @@
 
-import 'package:my_yuque/common/common.dart';
-import 'package:my_yuque/db/db_util.dart';
-import 'package:my_yuque/model/json_data.dart';
+import 'package:iyuque/common/common.dart';
+import 'package:iyuque/db/db_util.dart';
+import 'package:iyuque/model/json_data.dart';
 import 'package:sqflite/sqflite.dart';
 
 /// 知识库数据库操作

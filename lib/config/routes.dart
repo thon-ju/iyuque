@@ -1,9 +1,9 @@
 
 import 'package:fluro/fluro.dart' as fluro;
 import 'package:flutter/material.dart';
-import 'package:my_yuque/views/login/login.dart';
-import 'package:my_yuque/views/login/login_oauth.dart';
-import 'package:my_yuque/views/main_page.dart';
+import 'package:iyuque/views/login/login.dart';
+import 'package:iyuque/views/login/login_oauth.dart';
+import 'package:iyuque/views/main_page.dart';
 
 class Routes {
   static String login = "/login";

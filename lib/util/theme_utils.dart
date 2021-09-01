@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:my_yuque/res/colors.dart';
+import 'package:iyuque/res/colors.dart';
 
 class ThemeUtils {
 

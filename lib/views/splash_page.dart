@@ -3,13 +3,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flukit/flukit.dart';
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
-import 'package:my_yuque/common/common.dart';
-import 'package:my_yuque/common/sp_helper.dart';
-import 'package:my_yuque/model/models.dart';
-import 'package:my_yuque/net/http_utils.dart';
-import 'package:my_yuque/res/colors.dart';
-import 'package:my_yuque/util/navigator_util.dart';
-import 'package:my_yuque/util/utils.dart';
+import 'package:iyuque/common/common.dart';
+import 'package:iyuque/common/sp_helper.dart';
+import 'package:iyuque/model/models.dart';
+import 'package:iyuque/net/http_utils.dart';
+import 'package:iyuque/res/colors.dart';
+import 'package:iyuque/util/navigator_util.dart';
+import 'package:iyuque/util/utils.dart';
 import 'package:rxdart/rxdart.dart';
 
 class SplashPage extends StatefulWidget {

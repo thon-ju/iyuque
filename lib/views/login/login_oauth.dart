@@ -6,10 +6,10 @@ import 'dart:io';
 import 'package:crypto/crypto.dart';
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
-import 'package:my_yuque/common/common.dart';
-import 'package:my_yuque/net/dio_util.dart';
-import 'package:my_yuque/net/http_api.dart';
-import 'package:my_yuque/util/utils.dart';
+import 'package:iyuque/common/common.dart';
+import 'package:iyuque/net/dio_util.dart';
+import 'package:iyuque/net/http_api.dart';
+import 'package:iyuque/util/utils.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class LoginOAuthPage extends StatefulWidget {

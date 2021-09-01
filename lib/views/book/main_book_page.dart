@@ -2,13 +2,13 @@ import 'package:animations/animations.dart';
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:my_yuque/common/common.dart';
-import 'package:my_yuque/components/blocs/application_bloc.dart';
-import 'package:my_yuque/components/blocs/bloc_provider.dart';
-import 'package:my_yuque/db/repo_helper.dart';
-import 'package:my_yuque/model/json_data.dart';
-import 'package:my_yuque/res/styles.dart';
-import 'package:my_yuque/views/book/main_doc_page.dart';
+import 'package:iyuque/common/common.dart';
+import 'package:iyuque/components/blocs/application_bloc.dart';
+import 'package:iyuque/components/blocs/bloc_provider.dart';
+import 'package:iyuque/db/repo_helper.dart';
+import 'package:iyuque/model/json_data.dart';
+import 'package:iyuque/res/styles.dart';
+import 'package:iyuque/views/book/main_doc_page.dart';
 
 class MainBookPage extends StatefulWidget {
 
@@ -138,7 +138,7 @@ class _DetailsListTile extends StatelessWidget {
               height: height,
               width: height,
               child: Center(
-                child: Icon(FontAwesomeIcons.checkCircle, color: Theme.of(context).primaryColor, size: 32,),
+                child: Icon(FontAwesomeIcons.crown, color: Theme.of(context).primaryColor, size: 32,),
               ),
             ),
             Expanded(

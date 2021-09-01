@@ -7,7 +7,8 @@ class Constant {
 
   static const int status_success = 0;
 
-
+  /// 同步状态 0 没有待进行的同步 1有未完成的同步
+  static const String status_sync_data ="key_sync_status";
 
   static const String key_theme_color = 'key_theme_color';
   static const String key_guide = 'key_guide';
@@ -15,7 +16,7 @@ class Constant {
 }
 
 class AppConfig {
-  static const String appName = 'my_yuque';
+  static const String appName = 'iyuque';
   static const String version = '1.3.0';
   static const bool isDebug = true;
 }

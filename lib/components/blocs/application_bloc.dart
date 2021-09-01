@@ -1,4 +1,4 @@
-import 'package:my_yuque/components/blocs/bloc_provider.dart';
+import 'package:iyuque/components/blocs/bloc_provider.dart';
 import 'package:rxdart/rxdart.dart';
 
 class ApplicationBloc implements BlocBase {

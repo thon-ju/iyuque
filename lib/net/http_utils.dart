@@ -1,6 +1,6 @@
 
 //模拟网络请求数据
-import 'package:my_yuque/model/models.dart';
+import 'package:iyuque/model/models.dart';
 
 class HttpUtils {
   Future<SplashModel> getSplash() {

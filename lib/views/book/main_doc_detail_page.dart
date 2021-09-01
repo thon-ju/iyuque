@@ -2,9 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
-import 'package:my_yuque/components/me_app_bar.dart';
-import 'package:my_yuque/db/repo_helper.dart';
-import 'package:my_yuque/model/json_data.dart';
+import 'package:iyuque/components/me_app_bar.dart';
+import 'package:iyuque/db/repo_helper.dart';
+import 'package:iyuque/model/json_data.dart';
 
 class MainDocDetailPage extends StatefulWidget {
   const MainDocDetailPage({this.model});

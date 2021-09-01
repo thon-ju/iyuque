@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_yuque/components/likebtn/model.dart';
+import 'package:iyuque/components/likebtn/model.dart';
 
 import 'circle_painter.dart';
 import 'dot_painter.dart';

@@ -1,7 +1,7 @@
 import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:my_yuque/components/widgets.dart';
+import 'package:iyuque/components/widgets.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 typedef void OnLoadMore(bool up);

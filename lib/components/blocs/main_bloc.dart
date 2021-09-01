@@ -1,12 +1,12 @@
 import 'package:flustars/flustars.dart';
-import 'package:my_yuque/common/common.dart';
-import 'package:my_yuque/components/blocs/bloc_provider.dart';
-import 'package:my_yuque/event/event.dart';
-import 'package:my_yuque/model/json_data.dart';
-import 'package:my_yuque/net/dio_util.dart';
-import 'package:my_yuque/net/http_api.dart';
-import 'package:my_yuque/net/http_utils.dart';
-import 'package:my_yuque/res/strings.dart';
+import 'package:iyuque/common/common.dart';
+import 'package:iyuque/components/blocs/bloc_provider.dart';
+import 'package:iyuque/event/event.dart';
+import 'package:iyuque/model/json_data.dart';
+import 'package:iyuque/net/dio_util.dart';
+import 'package:iyuque/net/http_api.dart';
+import 'package:iyuque/net/http_utils.dart';
+import 'package:iyuque/res/strings.dart';
 import 'package:rxdart/rxdart.dart';
 
 class MainBloc implements BlocBase {

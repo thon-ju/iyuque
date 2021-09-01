@@ -1,4 +1,4 @@
-package com.thon.my_yuque;
+package com.thon.iyuque;
 
 import io.flutter.embedding.android.FlutterActivity;
 

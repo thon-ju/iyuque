@@ -34,7 +34,7 @@ android {
     compileSdkVersion 30
 
     defaultConfig {
-        applicationId "com.thon.my_yuque"
+        applicationId "com.thon.iyuque"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()

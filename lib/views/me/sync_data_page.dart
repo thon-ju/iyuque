@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:my_yuque/common/common.dart';
-import 'package:my_yuque/components/blocs/application_bloc.dart';
-import 'package:my_yuque/components/blocs/bloc_provider.dart';
-import 'package:my_yuque/components/me_app_bar.dart';
-import 'package:my_yuque/model/json_data.dart';
-import 'package:my_yuque/res/styles.dart';
+import 'package:iyuque/common/common.dart';
+import 'package:iyuque/components/blocs/application_bloc.dart';
+import 'package:iyuque/components/blocs/bloc_provider.dart';
+import 'package:iyuque/components/me_app_bar.dart';
+import 'package:iyuque/model/json_data.dart';
 import 'package:oktoast/oktoast.dart';
 
 class SyncDataPage extends StatefulWidget {
@@ -34,18 +33,17 @@ class SyncDataPageState extends State<SyncDataPage> {
       appBar: MeAppBar(
         title: const Text('数据同步'),
       ),
-      body: SafeArea(
-        child: Gaps.empty,
-      ),
-      bottomNavigationBar: Expanded(
-        child: ElevatedButton(
-          child: Text('同步'),
-          onPressed: () {
-            bloc.sendAppEvent(EventConfig.event_sync_begin);
-            showToast('后台自动同步');
-          },
+      body: ListView(
+        children: <Widget>[
+          ElevatedButton(
+            child: Text('同步'),
+            onPressed: () {
+              bloc.sendAppEvent(EventConfig.event_sync_begin);
+              showToast('后台自动同步');
+            },
 
-        ),
+          )
+        ],
       ),
     );
   }

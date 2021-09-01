@@ -1,18 +1,18 @@
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:my_yuque/common/common.dart';
-import 'package:my_yuque/components/com_item.dart';
-import 'package:my_yuque/model/json_data.dart';
-import 'package:my_yuque/model/models.dart';
-import 'package:my_yuque/res/colors.dart';
-import 'package:my_yuque/res/strings.dart';
-import 'package:my_yuque/res/styles.dart';
-import 'package:my_yuque/util/navigator_util.dart';
-import 'package:my_yuque/util/utils.dart';
-import 'package:my_yuque/views/me/about_page.dart';
-import 'package:my_yuque/views/me/setting_page.dart';
-import 'package:my_yuque/views/me/sync_data_page.dart';
+import 'package:iyuque/common/common.dart';
+import 'package:iyuque/components/com_item.dart';
+import 'package:iyuque/model/json_data.dart';
+import 'package:iyuque/model/models.dart';
+import 'package:iyuque/res/colors.dart';
+import 'package:iyuque/res/strings.dart';
+import 'package:iyuque/res/styles.dart';
+import 'package:iyuque/util/navigator_util.dart';
+import 'package:iyuque/util/utils.dart';
+import 'package:iyuque/views/me/about_page.dart';
+import 'package:iyuque/views/me/setting_page.dart';
+import 'package:iyuque/views/me/sync_data_page.dart';
 
 class MainMePage extends StatefulWidget {
 
@@ -103,6 +103,7 @@ class MainMePageState extends State<MainMePage> {
           ComArrowItem(ComModel(title: '数据同步',  icon: FontAwesomeIcons.database, onTap: (){
             NavigatorUtil.pushPage(context, SyncDataPage(), pageName: Ids.titleMeSyncData);
           })),
+          Gaps.vGap10,
           ComArrowItem(ComModel(title: '设置', extra: '', icon: FontAwesomeIcons.cog, onTap: (){
             NavigatorUtil.pushPage(context, SettingPage(), pageName: Ids.titleSetting);
           })),
