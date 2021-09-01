@@ -1,4 +1,5 @@
 import 'package:flustars/flustars.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_yuque/components/widgets.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -31,49 +32,17 @@ class RefreshScaffold extends StatefulWidget {
   final IndexedWidgetBuilder itemBuilder;
 
   @override
-  State<StatefulWidget> createState() {
-    return RefreshScaffoldState();
-  }
+  State<StatefulWidget> createState() {return RefreshScaffoldState();}
 }
 
 ///   with AutomaticKeepAliveClientMixin
-class RefreshScaffoldState extends State<RefreshScaffold>
-    with AutomaticKeepAliveClientMixin {
+class RefreshScaffoldState extends State<RefreshScaffold>  with AutomaticKeepAliveClientMixin {
   bool isShowFloatBtn = false;
+  RefreshController _refreshController = RefreshController(initialRefresh: false);
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      widget.controller.scrollController.addListener(() {
-        int offset = widget.controller.scrollController.offset.toInt();
-        if (offset < 480 && isShowFloatBtn) {
-          isShowFloatBtn = false;
-          setState(() {});
-        } else if (offset > 480 && !isShowFloatBtn) {
-          isShowFloatBtn = true;
-          setState(() {});
-        }
-      });
-    });
-  }
-
-  Widget buildFloatingActionButton() {
-    if (widget.controller.scrollController == null ||
-        widget.controller.scrollController.offset < 480) {
-      return null;
-    }
-
-    return new FloatingActionButton(
-        heroTag: widget.labelId,
-        backgroundColor: Theme.of(context).primaryColor,
-        child: Icon(
-          Icons.keyboard_arrow_up,
-        ),
-        onPressed: () {
-          widget.controller.scrollController.animateTo(0.0,
-              duration: Duration(milliseconds: 300), curve: Curves.linear);
-        });
   }
 
   @override
@@ -82,41 +51,41 @@ class RefreshScaffoldState extends State<RefreshScaffold>
     return Scaffold(
         body: Stack(
           children: <Widget>[
-            RefreshIndicator(
-                child: SmartRefresher(
-                    headerBuilder: ((BuildContext context, int mode) {
-                      return ClassicIndicator(
-                        mode: mode,
-                        releaseText: '下拉松开刷新',
-                        refreshingText: '刷新中...',
-                        completeText: '刷新完成',
-                        noDataText: '没有了',
-                        failedText: '刷新失败',
-                        idleText: '下拉刷新',
-                      );
-                    }),
-                    footerBuilder: ((BuildContext context, int mode) {
-                      return ClassicIndicator(
-                        mode: mode,
-                        releaseText: '下拉松开刷新',
-                        refreshingText: '加载中...',
-                        completeText: '加载完成',
-                        noDataText: '没有了',
-                        failedText: '刷新失败',
-                        idleText: '下拉刷新',);
-                    }),
-                    controller: widget.controller,
-                    enablePullDown: false,
-                    enablePullUp: widget.enablePullUp,
-                    enableOverScroll: false,
-                    onRefresh: widget.onLoadMore,
-                    child: widget.child ??
-                        new ListView.builder(
-                          itemCount: widget.itemCount,
-                          itemBuilder: widget.itemBuilder,
-                        )),
-                onRefresh: widget.onRefresh
-            ),
+            SmartRefresher(
+                header: WaterDropHeader(),
+                footer: CustomFooter(
+                  builder: (BuildContext context,LoadStatus mode){
+                    Widget body ;
+                    if(mode==LoadStatus.idle){
+                      body =  Text("上拉加载");
+                    }
+                    else if(mode==LoadStatus.loading){
+                      body =  CupertinoActivityIndicator();
+                    }
+                    else if(mode == LoadStatus.failed){
+                      body = Text("加载失败！点击重试！");
+                    }
+                    else if(mode == LoadStatus.canLoading){
+                      body = Text("松手,加载更多!");
+                    }
+                    else{
+                      body = Text("没有更多数据了!");
+                    }
+                    return Container(
+                      height: 55.0,
+                      child: Center(child:body),
+                    );
+                  },
+                ),
+                controller: _refreshController,
+                enablePullDown: false,
+                enablePullUp: widget.enablePullUp,
+                onRefresh: widget.onRefresh,
+                child: widget.child ??
+                    new ListView.builder(
+                      itemCount: widget.itemCount,
+                      itemBuilder: widget.itemBuilder,
+                    )),
             StatusViews(
               widget.loadStatus,
               onTap: () {
@@ -126,7 +95,7 @@ class RefreshScaffoldState extends State<RefreshScaffold>
             ),
           ],
         ),
-        floatingActionButton: buildFloatingActionButton());
+    );
   }
 
   @override

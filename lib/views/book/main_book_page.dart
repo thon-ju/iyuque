@@ -62,7 +62,9 @@ class MainBookPageState extends State<MainBookPage> {
 
 
     setState(() {
-      books = widgets;
+      if(mounted){
+        books = widgets;
+      }
     });
   }
 

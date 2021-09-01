@@ -12,9 +12,6 @@ import 'package:my_yuque/net/http_api.dart';
 import 'package:my_yuque/util/utils.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-/// 409回到登录时的上下文
-BuildContext globalContext;
-
 class LoginOAuthPage extends StatefulWidget {
   @override
   State createState() => new LoginOAuthPageState();
@@ -22,11 +19,11 @@ class LoginOAuthPage extends StatefulWidget {
 
 class LoginOAuthPageState extends State<LoginOAuthPage> {
   final Completer<WebViewController> _controller = Completer<WebViewController>();
-  final String CLIENT_ID = OAuthConfig.clientId;
-  final String CLIENT_SECRET = OAuthConfig.clientSecret;
-  final String CODE = SpUtil.getString(OAuthConfig.keyCode);
-  final String OAUTH_URL = OAuthConfig.oauthUrl;
-  String request_params = "";
+  final String clientId = OAuthConfig.clientId;
+  final String clientSecret = OAuthConfig.clientSecret;
+  final String oauthCode = Utils.getRandomString(40);
+  final String oauthUrl = OAuthConfig.oauthUrl;
+  String requestParams = "";
 
   // 轮询获取授权情况
   Timer _timer;
@@ -37,13 +34,13 @@ class LoginOAuthPageState extends State<LoginOAuthPage> {
 
     var timestamp = DateTime.now().millisecondsSinceEpoch;
     String scope = Uri.encodeComponent("doc,repo");
-    request_params = 'client_id=$CLIENT_ID&code=$CODE&response_type=code&scope=$scope&timestamp=$timestamp';
+    requestParams = 'client_id=$clientId&code=$oauthCode&response_type=code&scope=$scope&timestamp=$timestamp';
 
-    if(AppConfig.isDebug) print(request_params);
+    if(AppConfig.isDebug) print(requestParams);
 
-    var hmacSha1 = Hmac(sha1, utf8.encode(CLIENT_SECRET)); // HMAC-SHA1
-    String sign = Uri.encodeComponent(base64.encode(hmacSha1.convert(utf8.encode(request_params)).bytes));
-    request_params += '&sign=$sign';
+    var hmacSha1 = Hmac(sha1, utf8.encode(clientSecret)); // HMAC-SHA1
+    String sign = Uri.encodeComponent(base64.encode(hmacSha1.convert(utf8.encode(requestParams)).bytes));
+    requestParams += '&sign=$sign';
 
     if(AppConfig.isDebug) print(sign);
 
@@ -61,8 +58,7 @@ class LoginOAuthPageState extends State<LoginOAuthPage> {
   }
 
   Future _login() async {
-    String oauthCode = SpUtil.getString(OAuthConfig.keyCode, defValue: Utils.getRandomString(40));
-    Map<String, dynamic> formData = {'client_id': OAuthConfig.clientId, 'code': oauthCode, 'grant_type':'client_code'};
+    Map<String, dynamic> formData = {'client_id': clientId, 'code': oauthCode, 'grant_type':'client_code'};
     DioUtil().requestR(Method.post, OAuthConfig.tokenUrl, data: formData).then((resp){
       Map<String, dynamic> map = resp.data;
       if(map['access_token'].toString().isNotEmpty){
@@ -87,14 +83,16 @@ class LoginOAuthPageState extends State<LoginOAuthPage> {
       appBar: AppBar(
         title: const Text('OAuth登录语雀'),
       ),
-      // We're using a Builder here so we have a context that is below the Scaffold
-      // to allow calling Scaffold.of(context) so we can show a snackbar.
       body: Builder(builder: (BuildContext context) {
         return WebView(
-          initialUrl: '$OAUTH_URL?$request_params',
+          initialUrl: '$oauthUrl?$requestParams',
           javascriptMode: JavascriptMode.unrestricted,
           onWebViewCreated: (WebViewController webViewController) {
             _controller.complete(webViewController);
+
+            webViewController.clearCache();
+            final cookieManager = CookieManager();
+            cookieManager.clearCookies();
           },
           onProgress: (int progress) {
             print("WebView is loading (progress : $progress%)");
@@ -103,7 +101,7 @@ class LoginOAuthPageState extends State<LoginOAuthPage> {
             _toasterJavascriptChannel(context),
           },
           onPageStarted: (String url) {
-            print('Page started loading: $url');
+
           },
           onPageFinished: (String url) {
             print('Page finished loading: $url');

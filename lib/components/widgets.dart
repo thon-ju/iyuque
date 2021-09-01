@@ -1,14 +1,11 @@
 
-import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:my_yuque/common/common.dart';
 import 'package:my_yuque/res/colors.dart';
 import 'package:my_yuque/res/styles.dart';
 import 'package:my_yuque/util/image_utils.dart';
 import 'package:my_yuque/util/utils.dart';
-import 'package:oktoast/oktoast.dart';
 
 class ProgressView extends StatelessWidget {
   @override
@@ -267,77 +264,6 @@ class FormInputItem extends StatelessWidget {
               onTap: onTap,
             ),
           ),
-        ],
-      ),
-    );
-  }
-}
-
-class FormDateItem extends StatelessWidget {
-  const FormDateItem({@required this.name, this.readOnly, this.labelWidth, this.initialValue, this.selectDate, this.minTime, this.maxTime, Key key}) : super(key: key);
-
-  final String name;
-  final DateTime initialValue;
-  final double labelWidth;
-  final Function selectDate;
-  final bool readOnly;
-  final DateTime minTime;
-  final DateTime maxTime;
-
-  @override
-  Widget build(BuildContext context) {
-
-    return Container(
-      decoration: UnderlineTabIndicator(
-          borderSide: BorderSide(width: 1.0, color: Colours.divider),
-          insets: EdgeInsets.fromLTRB(0,0,0, 0)
-      ),
-      child: Row(
-        children: [
-          SizedBox(
-            width: labelWidth??80.0,
-            height: 40.0,
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(name, style: TextStyles.listContent2,),
-            ),
-          ),
-          Expanded(
-            child: FlatButton(
-              padding: EdgeInsets.symmetric(horizontal: 0),
-              onPressed: () {
-                if(readOnly!=true){
-                  DatePicker.showDatePicker(
-                      context,
-                      showTitleActions: true,
-                      onConfirm: selectDate,
-                      currentTime: initialValue,
-                      minTime: minTime,
-                      maxTime: maxTime,
-                      locale: LocaleType.zh
-                  );
-                } else {
-                  showToast('不允许修改');
-                }
-              },
-              child: SizedBox(
-                width: double.infinity,
-                child: Text(
-                  initialValue==null?'':DateUtil.formatDate(initialValue, format:DateFormats.y_mo_d),
-                  textAlign: TextAlign.left,
-                  style: TextStyles.listContent,
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 20,
-            child: Icon(
-              Icons.chevron_right,
-              size: 20.0,
-              color: Colours.text_gray,
-            )
-          )
         ],
       ),
     );

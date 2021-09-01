@@ -49,7 +49,7 @@ class MainDocDetailPageState extends State<MainDocDetailPage> {
           defaultToolbarButtons: []
         ),
         htmlEditorOptions: HtmlEditorOptions(
-          hint: "Your text here...",
+          hint: "",
           initialText: html,
         ),
         otherOptions: OtherOptions(

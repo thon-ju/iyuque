@@ -113,6 +113,10 @@ class MainMePageState extends State<MainMePage> {
           ComArrowItem(ComModel(title: '设置', extra: '', icon: FontAwesomeIcons.cog, onTap: (){
             NavigatorUtil.pushPage(context, SettingPage(), pageName: Ids.titleSetting);
           })),
+          Gaps.vGap10,
+          ComArrowItem(ComModel(title: '关于', extra: '', icon: FontAwesomeIcons.cog, onTap: (){
+            NavigatorUtil.pushPage(context, SettingPage(), pageName: Ids.titleAbout);
+          })),
         ],
       ),
     );

@@ -24,6 +24,7 @@ class MainRecentPageState extends State<MainRecentPage> with SingleTickerProvide
   @override
   void initState() {
     super.initState();
+    _initListener();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       _initData();
@@ -33,7 +34,7 @@ class MainRecentPageState extends State<MainRecentPage> with SingleTickerProvide
   @override
   void dispose() {
     super.dispose();
-    _initListener();
+
   }
 
   void _initListener() {

@@ -7,7 +7,6 @@ import 'package:my_yuque/net/dio_util.dart';
 import 'package:my_yuque/net/http_api.dart';
 import 'package:my_yuque/net/http_utils.dart';
 import 'package:my_yuque/res/strings.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:rxdart/rxdart.dart';
 
 class MainBloc implements BlocBase {
@@ -62,7 +61,6 @@ class MainBloc implements BlocBase {
     }
 
     if(_totalPages != null && _page > _totalPages){
-      _eventSink.add(new StatusEvent(labelId, RefreshStatus.noMore));
       return Future.delayed(new Duration(seconds: 1));
     }
 
@@ -90,8 +88,6 @@ class MainBloc implements BlocBase {
       DioUtil().request(Method.get, '${Api.BASE_URL}/repos/${_selectedRepo.id}/docs', data: {}).then((resp){
         List<Doc> list =  resp.data['data'].map<Doc>((e){return Doc.fromJson(e);}).toList();
 
-        _eventSink.add(new StatusEvent(labelId, ObjectUtil.isEmpty(list) ? RefreshStatus.noMore : RefreshStatus.idle));
-
         if (_docList == null) {
           _docList = new List();
         }
@@ -104,7 +100,6 @@ class MainBloc implements BlocBase {
         LogUtil.e("error labelId: $labelId" + "  msg: $errorMsg");
 
         _docPage--;
-        _eventSink.add(new StatusEvent(labelId, RefreshStatus.canRefresh));
       });
     }
   }

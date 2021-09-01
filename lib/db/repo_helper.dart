@@ -24,7 +24,7 @@ class RepoHelper{
   Future initBooks(List<Book> books) async {
     ///先删除
     int startTime = DateTime.now().millisecondsSinceEpoch;
-    books.forEach((book) async {
+    await Future.forEach(books, (book) async {
       await saveBook(book);
     });
 
@@ -47,7 +47,7 @@ class RepoHelper{
 
     var batch = db.batch();
     int startTime = DateTime.now().millisecondsSinceEpoch;
-    docs.forEach((doc){
+    await Future.forEach(docs, (doc){
       doc.book_id = book.id;
       Map map = doc.toJson();
       map.remove("book");

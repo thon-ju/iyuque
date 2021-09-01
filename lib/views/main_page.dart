@@ -81,12 +81,12 @@ class MainPageState extends State<MainPage> with TickerProviderStateMixin {
     books = respBooks.data['data'].map<Book>((e){return Book.fromJson(e);}).toList();
     await RepoHelper.instance.initBooks(books);
 
-    books.forEach((book) async {
+    await Future.forEach(books, (book) async {
       var respDocs = await DioUtil().request(Method.get, "${Api.BASE_URL}/repos/${book.id}/docs", data: {});
       List<Doc> docs = respDocs.data['data'].map<Doc>((e){return Doc.fromJson(e);}).toList();
       await RepoHelper.instance.initDocs(book, docs);
 
-      docs.forEach((doc) async {
+      await Future.forEach(docs, (doc) async {
         var respDocDetail = await DioUtil().requestR(Method.get, '${Api.BASE_URL}/repos/${book.namespace}/docs/${doc.slug}', data: {});
         DocDetail docDetail = DocDetail.fromJson(respDocDetail.data['data']);
         await RepoHelper.instance.initDocDetail(book, docDetail);

@@ -349,13 +349,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.4.0"
-  flutter_datetime_picker:
-    dependency: "direct main"
-    description:
-      name: flutter_datetime_picker
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "1.5.1"
   flutter_image_compress:
     dependency: "direct main"
     description:
@@ -742,13 +735,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "4.2.3"
-  progress_hud:
-    dependency: "direct main"
-    description:
-      name: progress_hud
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "1.1.0"
   pub_semver:
     dependency: transitive
     description:
@@ -769,7 +755,7 @@ packages:
       name: pull_to_refresh
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.1.6"
+    version: "2.0.0"
   quiver:
     dependency: transitive
     description:
@@ -943,13 +929,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.3.0"
-  timeline_tile:
-    dependency: "direct main"
-    description:
-      name: timeline_tile
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "2.0.0"
   timing:
     dependency: transitive
     description:
