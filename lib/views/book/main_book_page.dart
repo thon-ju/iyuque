@@ -7,6 +7,7 @@ import 'package:my_yuque/components/blocs/application_bloc.dart';
 import 'package:my_yuque/components/blocs/bloc_provider.dart';
 import 'package:my_yuque/db/repo_helper.dart';
 import 'package:my_yuque/model/json_data.dart';
+import 'package:my_yuque/res/styles.dart';
 import 'package:my_yuque/views/book/main_doc_page.dart';
 
 class MainBookPage extends StatefulWidget {
@@ -133,16 +134,16 @@ class _DetailsListTile extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              color: Colors.black38,
+              color: Colors.white,
               height: height,
               width: height,
               child: Center(
-                child: Icon(FontAwesomeIcons.checkCircle),
+                child: Icon(FontAwesomeIcons.checkCircle, color: Theme.of(context).primaryColor, size: 32,),
               ),
             ),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 5),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -150,9 +151,7 @@ class _DetailsListTile extends StatelessWidget {
                       title??'',
                       style: textTheme.subtitle1,
                     ),
-                    const SizedBox(
-                      height: 5,
-                    ),
+                    Gaps.vGap5,
                     Text(
                       '共${itemsCount??0}篇',
                       style: textTheme.caption,

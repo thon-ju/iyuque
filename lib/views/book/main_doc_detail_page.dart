@@ -17,7 +17,7 @@ class MainDocDetailPage extends StatefulWidget {
 class MainDocDetailPageState extends State<MainDocDetailPage> {
   HtmlEditorController controller = HtmlEditorController();
   DocDetail detail;
-  String html = 'Your text here...';
+  String html = '';
 
   @override
   void initState() {

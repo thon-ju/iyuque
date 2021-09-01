@@ -28,6 +28,13 @@ import 'navigator_util.dart';
 class Utils {
   static const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
 
+
+  static String getDatetimeSimple(String datetime) {
+    String format = DateUtil.yearIsEqual(DateUtil.getDateTime(datetime, isUtc: false), DateTime.now())? DateFormats.mo_d_h_m: DateFormats.y_mo_d_h_m;
+    return DateUtil.formatDateStr(datetime, isUtc: false, format: format);
+  }
+
+
   static String getImgPath(String name, {String format: 'png'}) {
     return 'assets/images/$name.$format';
   }

@@ -114,7 +114,7 @@ class RepoHelper{
   /// 获取某个知识库文档列表
   Future<List<Doc>> getDocs(int bookId) async{
     var db = await _dbUtil.db;
-    List<Map> maps = await db.rawQuery("SELECT * FROM ${DbUtil.tableDoc} WHERE book_id = $bookId");
+    List<Map> maps = await db.rawQuery("SELECT * FROM ${DbUtil.tableDoc} WHERE book_id = $bookId order by updated_at desc");
     if (maps == null || maps.length == 0) {
       return null;
     }

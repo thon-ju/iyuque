@@ -2,8 +2,6 @@ import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_yuque/common/common.dart';
-import 'package:my_yuque/components/blocs/bloc_provider.dart';
-import 'package:my_yuque/components/blocs/main_bloc.dart';
 import 'package:my_yuque/components/com_item.dart';
 import 'package:my_yuque/model/json_data.dart';
 import 'package:my_yuque/model/models.dart';
@@ -50,7 +48,6 @@ class MainMePageState extends State<MainMePage> {
 
   @override
   Widget build(BuildContext context) {
-    final MainBloc bloc = BlocProvider.of<MainBloc>(context);
 
     return Scaffold(
       body: ListView(
@@ -62,13 +59,9 @@ class MainMePageState extends State<MainMePage> {
               child: Row(
                 children: <Widget>[
                   Container(
-                    width: 70,
-                    child: Card(
-                      color: Theme.of(context).primaryColor,
-                      elevation: 0.0,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(6.0))),
-                      child: Image.asset(
-                        Utils.getImgPath('avatar'),
+                    child: ClipOval(
+                      child: Image.network(
+                        userInfo['avatar_url'],
                         width: 60.0,
                         height: 60.0,
                         fit: BoxFit.fill,
@@ -84,12 +77,12 @@ class MainMePageState extends State<MainMePage> {
                       children: <Widget>[
                         Text(
                           userName,
-                          style: TextStyle(color: Colours.text_dark, fontSize: 20.0, fontWeight: FontWeight.bold),
+                          style: TextStyles.textBold18,
                         ),
                         Gaps.vGap10,
                         Text(
-                          userAccount,
-                          style: TextStyle(color: Colours.gray_99, fontSize: 16.0),
+                          '加入时间 ' +DateUtil.formatDateStr(userInfo['created_at'], isUtc: false, format: DateFormats.y_mo_d),
+                          style: TextStyles.listExtra,
                         )
                       ],
                     ),
@@ -107,15 +100,13 @@ class MainMePageState extends State<MainMePage> {
                 Utils.checkVersion(context, true, true);
               }
           )),
-          ComArrowItem(ComModel(title: '数据同步',  icon: FontAwesomeIcons.checkCircle, onTap: (){
+          ComArrowItem(ComModel(title: '数据同步',  icon: FontAwesomeIcons.database, onTap: (){
             NavigatorUtil.pushPage(context, SyncDataPage(), pageName: Ids.titleMeSyncData);
           })),
-          Gaps.vGap10,
           ComArrowItem(ComModel(title: '设置', extra: '', icon: FontAwesomeIcons.cog, onTap: (){
             NavigatorUtil.pushPage(context, SettingPage(), pageName: Ids.titleSetting);
           })),
-          Gaps.vGap10,
-          ComArrowItem(ComModel(title: '关于', extra: '', icon: FontAwesomeIcons.cog, onTap: (){
+          ComArrowItem(ComModel(title: '关于', extra: '', icon: FontAwesomeIcons.questionCircle, onTap: (){
             NavigatorUtil.pushPage(context, AboutPage(), pageName: Ids.titleAbout);
           })),
         ],

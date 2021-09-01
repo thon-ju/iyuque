@@ -21,7 +21,7 @@ class ComArrowItem extends StatelessWidget {
             }
           },
           enabled: model.enable??true,
-          leading: model.icon==null?null: Icon(model.icon),
+          leading: model.icon==null?null: Icon(model.icon, color: Theme.of(context).primaryColor,),
           title: Align(
             alignment: Alignment.centerLeft,
             child: Text(model.title == null ? "" : model.title, style: TextStyles.textSize14,),

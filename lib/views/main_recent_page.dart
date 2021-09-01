@@ -8,6 +8,7 @@ import 'package:my_yuque/db/repo_helper.dart';
 import 'package:my_yuque/model/json_data.dart';
 import 'package:my_yuque/res/colors.dart';
 import 'package:my_yuque/res/styles.dart';
+import 'package:my_yuque/util/utils.dart';
 
 import 'book/main_doc_detail_page.dart';
 
@@ -79,7 +80,7 @@ class MainRecentPageState extends State<MainRecentPage> with SingleTickerProvide
                   children: <Widget>[
                     Gaps.vGap5,
                     InputTitle(docs[index].title, showIcon: true,),
-                    Text('更新于'+DateUtil.formatDateStr(docs[index].updated_at, isUtc: false), style: TextStyles.listExtra,),
+                    Text('更新于 '+ Utils.getDatetimeSimple(docs[index].updated_at), style: TextStyles.listExtra,),
                     Gaps.vGap10,
                   ],
                 ),
