@@ -5,6 +5,7 @@ import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:iyuque/common/common.dart';
 import 'package:iyuque/common/sp_helper.dart';
+import 'package:iyuque/config/oauth_config.dart';
 import 'package:iyuque/model/models.dart';
 import 'package:iyuque/net/http_utils.dart';
 import 'package:iyuque/res/colors.dart';

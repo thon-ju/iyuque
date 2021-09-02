@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:iyuque/common/common.dart';
 import 'package:iyuque/components/blocs/application_bloc.dart';
 import 'package:iyuque/components/blocs/bloc_provider.dart';
+import 'package:iyuque/components/widgets.dart';
 import 'package:iyuque/db/repo_helper.dart';
 import 'package:iyuque/model/json_data.dart';
 import 'package:iyuque/res/colors.dart';
@@ -60,7 +61,7 @@ class MainBookPageState extends State<MainBookPage> {
               onLongPress: (){
                 showToast('设置图标');
               },
-              leading: Icon(FontAwesomeIcons.crown, color: Theme.of(context).primaryColor, size: 32,),
+              leading: Icon(FontAwesomeIcons.book, color: Theme.of(context).primaryColor, size: 32,),
               title:  Text(
                 book.name??'',
               ),
@@ -115,7 +116,7 @@ class MainBookPageState extends State<MainBookPage> {
           _loadBooks();
           return null;
         },
-        child: GridView.count(
+        child: books.length==0?StatusViews(LoadStatus.empty): GridView.count(
           restorationId: 'grid_view_demo_grid_offset',
           crossAxisCount: displayCols,
           mainAxisSpacing: 10,

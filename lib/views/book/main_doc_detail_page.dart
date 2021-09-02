@@ -36,7 +36,6 @@ class MainDocDetailPageState extends State<MainDocDetailPage> {
             '</head>'
             '<body>${docDetail?.body_html}</body>'
             '</html>';
-        print(html);
       });
 
     });

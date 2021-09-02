@@ -65,7 +65,7 @@ class MainRecentPageState extends State<MainRecentPage> with SingleTickerProvide
           _initData();
           return null;
         },
-        child: ListView.builder(
+        child: docs.length==0?StatusViews(LoadStatus.empty): ListView.builder(
           padding: const EdgeInsets.all(8),
           itemCount: docs?.length,
           itemBuilder: (BuildContext context, int index) {

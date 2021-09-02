@@ -2,7 +2,7 @@
 
 import 'package:dio/dio.dart';
 import 'package:flustars/flustars.dart';
-import 'package:iyuque/common/common.dart';
+import 'package:iyuque/config/oauth_config.dart';
 
 class AuthInterceptor extends Interceptor{
   @override

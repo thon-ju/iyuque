@@ -37,7 +37,9 @@ class StatusViews extends StatelessWidget {
             color: Colors.white,
             child: InkWell(
               onTap: () {
-                onTap();
+                if(onTap != null){
+                  onTap();
+                }
               },
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -68,7 +70,9 @@ class StatusViews extends StatelessWidget {
       case LoadStatus.empty:
         return InkWell(
           onTap: () {
-            onTap();
+            if(onTap != null){
+              onTap();
+            }
           },
           child: Container(
             color: Colors.white,

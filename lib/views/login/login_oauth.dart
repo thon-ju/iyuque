@@ -7,6 +7,7 @@ import 'package:crypto/crypto.dart';
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:iyuque/common/common.dart';
+import 'package:iyuque/config/oauth_config.dart';
 import 'package:iyuque/net/dio_util.dart';
 import 'package:iyuque/net/http_api.dart';
 import 'package:iyuque/util/utils.dart';

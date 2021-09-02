@@ -77,17 +77,11 @@ dev_dependencies:
 
 flutter:
 
-  # The following line ensures that the Material Icons font is
-  # included with your application, so that you can use the icons in
-  # the material Icons class.
   uses-material-design: true
   assets:
     - assets/images/
     - assets/images/login/
-    - assets/images/icon_qrcode.png
-    - assets/images/cover.jpg
     - assets/images/avatar.png
-    - assets/images/qrcode.png
     - assets/images/ic_launcher.png
     - assets/images/ic_data_empty.png
     - assets/images/ic_network_error.png

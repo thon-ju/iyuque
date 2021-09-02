@@ -1,17 +1,41 @@
+English | [中文](/README-zh.md)
 # iyuque
+a nice [yuque](https://www.yuque.com) mobile client app.
 
-语雀客户端
+[![logo](https://raw.githubusercontent.com/thon-ju/iyuque/master/assets/images/ic_launcher.png?raw=true)]
+
+## Features
+
+### App
+* 【finished】One login types (OAuth)
+* 【finished】Multiple accent colors
+* 【finished】Highlighting support
+* 【finished】Offline mode
+* 【finished】Supports multi-account switching
+* 【finished】Supports recent docs view
+* 【underway】Document editing and document sticking
+* 【underway】Repo icon customization and drag sorting
+
+### And more
+* iyuque is constantly improving, and trying to be a better [yuque](https://www.yuque.com) client.
+
+## Screenshots
+
+| start | main |
+|:-:|:-:|
+| ![start](https://raw.githubusercontent.com/thon-ju/iyuque/master/assets/app/start.png?raw=true) | ![main](https://raw.githubusercontent.com/thon-ju/iyuque/master/assets/app/main.jpg?raw=true) |
+
+## Thanks for open source
+
+* [html_editor_enhanced](https://github.com/tneotia/html-editor-enhanced) html rich text editor
+* [dio](https://github.com/flutterchina/dio) a powerful http request tool  
+* [flustars](https://github.com/Sky24n/flustars) flutter tools   
 
 
+## Contributions(*Order by commit time*)
 
-## json实体类转换方法
-写实体类        
-运行生产g文件      
-flutter packages pub run build_runner build
-
-## 数据使用bloc方式获取
-参考文章https://zhuanlan.zhihu.com/p/55842307
+* hope you will join
 
 
-## 升级flutter2.0版本
-https://juejin.cn/post/6938342360833064974
+## License
+MIT
