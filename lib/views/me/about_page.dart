@@ -78,7 +78,7 @@ class AboutPage extends StatelessWidget {
               title: Text('源码', style: TextStyles.listTitle,),
               subtitle: Text('星标支持', style: TextStyles.listExtra),
               onTap: (){
-
+                NavigatorUtil.pushWeb(context, title:'GitHub主页', url: 'https://github.com/thon-ju/iyuque');
               },
             ),
           ),

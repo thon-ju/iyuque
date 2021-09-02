@@ -33,17 +33,15 @@ class SyncDataPageState extends State<SyncDataPage> {
       appBar: MeAppBar(
         title: const Text('数据同步'),
       ),
-      body: ListView(
-        children: <Widget>[
-          ElevatedButton(
-            child: Text('同步'),
-            onPressed: () {
-              bloc.sendAppEvent(EventConfig.event_sync_begin);
-              showToast('后台自动同步');
-            },
+      body: Center(
+        child: ElevatedButton(
+          child: Text('手动同步'),
+          onPressed: () {
+            bloc.sendAppEvent(EventConfig.event_sync_begin);
+            showToast('数据同步已启动');
+          },
 
-          )
-        ],
+        ),
       ),
     );
   }

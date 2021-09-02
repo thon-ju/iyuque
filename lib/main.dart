@@ -29,7 +29,6 @@ import 'package:permission_handler/permission_handler.dart';
 
 final List<Permission> needPermissionList = [
   Permission.location,
-  Permission.storage,
   Permission.phone,
 ];
 
