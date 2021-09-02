@@ -1,8 +1,7 @@
 English | [中文](/README.md)
 # iyuque
-a nice [yuque](https://www.yuque.com) mobile client app.
-
-[![logo](./assets/images/ic_launcher.png?raw=true)]
+a nice [yuque](https://www.yuque.com) mobile client app.        
+![logo](./assets/images/ic_launcher.png?raw=true)
 
 ## Features
 

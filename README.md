@@ -1,8 +1,7 @@
 [English](/README-en.md) | 中文
 # 爱语雀
-一个好用的[语雀](https://www.yuque.com)手机客户端。
-
-[![logo](./assets/images/ic_launcher.png?raw=true)]
+一个好用的[语雀](https://www.yuque.com)手机客户端。         
+![logo](./assets/images/ic_launcher.png?raw=true)
 
 ## 特点
 
