@@ -27,7 +27,16 @@ class MainDocDetailPageState extends State<MainDocDetailPage> {
       DocDetail docDetail = await RepoHelper.instance.getDocDetail(widget.model.id);
 
       setState(() {
-        html = docDetail.body_html;
+        html = '<!DOCTYPE html> <html> '
+            '<head><meta charset="utf-8">'
+            '<link rel="stylesheet" type="text/css" href="http://editor.yuque.com/ne-editor/lake-content-v1.css">'
+            '<style type="text/css">'
+            '.lake-content .ne-codeblock{overflow: auto;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre-wrap; word-wrap:break-word; }'
+            '</style>'
+            '</head>'
+            '<body>${docDetail?.body_html}</body>'
+            '</html>';
+        print(html);
       });
 
     });

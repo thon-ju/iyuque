@@ -1,5 +1,6 @@
 import 'package:animations/animations.dart';
 import 'package:flustars/flustars.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:iyuque/common/common.dart';
@@ -7,8 +8,11 @@ import 'package:iyuque/components/blocs/application_bloc.dart';
 import 'package:iyuque/components/blocs/bloc_provider.dart';
 import 'package:iyuque/db/repo_helper.dart';
 import 'package:iyuque/model/json_data.dart';
+import 'package:iyuque/res/colors.dart';
 import 'package:iyuque/res/styles.dart';
+import 'package:iyuque/util/utils.dart';
 import 'package:iyuque/views/book/main_doc_page.dart';
+import 'package:oktoast/oktoast.dart';
 
 class MainBookPage extends StatefulWidget {
 
@@ -51,10 +55,39 @@ class MainBookPageState extends State<MainBookPage> {
         widgets.add(_OpenContainerWrapper(
           detailPage: MainDocPage(model: book,),
           closedBuilder: (context, openContainer) {
-            return _DetailsListTile(
-              openContainer: openContainer,
-              title: book.name,
-              itemsCount: book.items_count,
+            return ListTile(
+              onTap: openContainer,
+              onLongPress: (){
+                showToast('设置图标');
+              },
+              leading: Icon(FontAwesomeIcons.crown, color: Theme.of(context).primaryColor, size: 32,),
+              title:  Text(
+                book.name??'',
+              ),
+              subtitle: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: Text('共${book.items_count??0}篇', style: TextStyles.textGray12,)
+                  ),
+                  Expanded(
+                      flex: 1,
+                      child: Row(
+                        children: [
+                          Icon(book.public==0?FontAwesomeIcons.lock:FontAwesomeIcons.lockOpen, color: Colours.gray_ce, size: 12,),
+                          Text(book.public==0?' 私密':' 公开', style: TextStyles.textGray12,)
+                        ],
+                      )
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Text('更新于 ${Utils.getDatetimeSimple(book.updated_at)}', style: TextStyles.textGray12,)
+                  ),
+
+                ],
+              ),
             );
           },
         )) ;
@@ -71,9 +104,10 @@ class MainBookPageState extends State<MainBookPage> {
 
   @override
   Widget build(BuildContext context) {
+    int displayCols = 1;
     var size = MediaQuery.of(context).size;
-    final double itemHeight = 80;
-    final double itemWidth = size.width / 2;
+    final double itemHeight = 74;
+    final double itemWidth = size.width / displayCols;
 
     return Scaffold(
       body: RefreshIndicator(
@@ -83,8 +117,8 @@ class MainBookPageState extends State<MainBookPage> {
         },
         child: GridView.count(
           restorationId: 'grid_view_demo_grid_offset',
-          crossAxisCount: 2,
-          mainAxisSpacing: 20,
+          crossAxisCount: displayCols,
+          mainAxisSpacing: 10,
           crossAxisSpacing: 10,
           padding: const EdgeInsets.all(8),
           childAspectRatio: (itemWidth / itemHeight),
@@ -111,58 +145,6 @@ class _OpenContainerWrapper extends StatelessWidget {
       },
       tappable: false,
       closedBuilder: closedBuilder,
-    );
-  }
-}
-
-class _DetailsListTile extends StatelessWidget {
-  const _DetailsListTile({this.openContainer, this.title, this.itemsCount});
-
-  final VoidCallback openContainer;
-  final String title;
-  final int itemsCount;
-
-  @override
-  Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    const height = 80.0;
-
-    return SizedBox(
-      height: height,
-      child: InkWell(
-        onTap: openContainer,
-        child: Row(
-          children: [
-            Container(
-              color: Colors.white,
-              height: height,
-              width: height,
-              child: Center(
-                child: Icon(FontAwesomeIcons.crown, color: Theme.of(context).primaryColor, size: 32,),
-              ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 5),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title??'',
-                      style: textTheme.subtitle1,
-                    ),
-                    Gaps.vGap5,
-                    Text(
-                      '共${itemsCount??0}篇',
-                      style: textTheme.caption,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

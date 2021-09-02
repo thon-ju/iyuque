@@ -63,7 +63,17 @@ class MainDocPageState extends State<MainDocPage> {
                   children: <Widget>[
                     Gaps.vGap5,
                     InputTitle(docs[index].title, showIcon: true,),
-                    Text('更新于 ' + Utils.getDatetimeSimple(docs[index].updated_at), style: TextStyles.listExtra,),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                            flex: 1,
+                            child: Text('更新于 ${Utils.getDatetimeSimple(docs[index].updated_at)}', style: TextStyles.listExtra,)
+                        ),
+
+                      ],
+                    ),
                     Gaps.vGap10,
                   ],
                 ),
