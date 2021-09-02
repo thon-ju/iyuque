@@ -14,8 +14,8 @@ import 'package:iyuque/util/theme_utils.dart';
 import 'package:iyuque/util/utils.dart';
 import 'package:iyuque/views/book/main_book_page.dart';
 import 'package:iyuque/views/main_app_bar.dart';
-import 'package:iyuque/views/main_recent_page.dart';
 import 'package:iyuque/views/me/main_me_page.dart';
+import 'package:iyuque/views/recent/main_recent_page.dart';
 import 'package:oktoast/oktoast.dart';
 
 class MainPage extends StatefulWidget {

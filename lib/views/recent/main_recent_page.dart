@@ -10,7 +10,7 @@ import 'package:iyuque/res/colors.dart';
 import 'package:iyuque/res/styles.dart';
 import 'package:iyuque/util/utils.dart';
 
-import 'book/main_doc_detail_page.dart';
+import '../book/main_doc_detail_page.dart';
 
 class MainRecentPage extends StatefulWidget {
 

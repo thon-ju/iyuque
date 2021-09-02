@@ -14,7 +14,7 @@ import 'package:iyuque/res/strings.dart';
 import 'package:iyuque/res/styles.dart';
 import 'package:iyuque/util/navigator_util.dart';
 import 'package:iyuque/util/utils.dart';
-import 'package:iyuque/views/language_page.dart';
+import 'package:iyuque/views/me/language_page.dart';
 
 class SettingPage extends StatelessWidget {
 
