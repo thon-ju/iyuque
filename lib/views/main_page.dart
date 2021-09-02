@@ -65,18 +65,29 @@ class MainPageState extends State<MainPage> with TickerProviderStateMixin {
     final ApplicationBloc applicationBloc = BlocProvider.of<ApplicationBloc>(context);
     applicationBloc.appEventStream.listen((value) {
       if(value == EventConfig.event_sync_begin){
-        _syncData();
+        _syncData(isForce: true);
       }
     });
   }
 
   // 更新知识库及文档目录、文档详情
-  Future<int> _syncData() async {
+  Future<int> _syncData({isForce}) async {
     List<Book> books = [];
 
-    int syncStatus = SpUtil.getInt(Constant.status_sync_data, defValue: 0);
-    if(syncStatus == 0){
-      SpUtil.putInt(Constant.status_sync_data, 1);
+    int syncStatus = SpUtil.getInt(Constant.sync_data_status, defValue: 0);
+
+    int nowTime = DateUtil.getNowDateMs();
+    int syncTime = SpUtil.getInt(Constant.sync_data_last_time, defValue: nowTime);
+    int  duration = nowTime - syncTime;
+
+    if(AppConfig.isDebug) print('sync_data_last_time: ' + DateUtil.formatDateMs(syncTime, isUtc: false, format: DateFormats.full));
+
+    // 强制更新、间隔大于60s 或 第一次 或 更新已完成、间隔大于5分钟 或 更新间隔大于1小时
+    if((isForce == true && duration > 60*1000)
+        || (syncStatus == 0 && (duration == 0 || duration > 5*60*1000))
+        || duration> 60*60*1000){
+      SpUtil.putInt(Constant.sync_data_status, 1);
+      SpUtil.putInt(Constant.sync_data_last_time, nowTime);
 
       final ApplicationBloc applicationBloc = BlocProvider.of<ApplicationBloc>(context);
       int startTime = DateTime.now().millisecondsSinceEpoch;
@@ -104,9 +115,10 @@ class MainPageState extends State<MainPage> with TickerProviderStateMixin {
       }
 
       applicationBloc.sendAppEvent(EventConfig.event_sync_doc_finish);
-      SpUtil.putInt(Constant.status_sync_data, 0);
+
+      SpUtil.putInt(Constant.sync_data_status, 0);
       showToast('数据同步完成');
-    }else{
+    }else if(isForce == true && duration <= 60*1000){
       showToast('数据正在同步中，请稍后...');
     }
 
@@ -131,7 +143,7 @@ class MainPageState extends State<MainPage> with TickerProviderStateMixin {
     return WillPopScope(
         onWillPop: (){
           print('logout');
-          SpUtil.putInt(Constant.status_sync_data, 0);
+          SpUtil.putInt(Constant.sync_data_status, 0);
           return Future.value(true);
         },
         child: Scaffold(

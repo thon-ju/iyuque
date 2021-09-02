@@ -15,7 +15,7 @@ import 'package:rxdart/rxdart.dart';
 class SplashPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return new SplashPageState();
+    return SplashPageState();
   }
 }
 
@@ -26,7 +26,7 @@ class SplashPageState extends State<SplashPage> {
 
   ];
 
-  List<Widget> _bannerList = new List();
+  List<Widget> _bannerList = List();
 
   int _status = 0;
   int _count = 3;
@@ -42,10 +42,9 @@ class SplashPageState extends State<SplashPage> {
   void _initAsync() async {
     await SpUtil.getInstance();
     //_loadSplashData();
-    Stream.value(1).delay(new Duration(milliseconds: 500)).listen((_) {
+    Stream.value(1).delay(Duration(milliseconds: 1500)).listen((_) {
 //      SpUtil.putBool(Constant.key_guide, false);
-      if (SpUtil.getBool(Constant.key_guide, defValue: true) &&
-          ObjectUtil.isNotEmpty(_guideList)) {
+      if (SpUtil.getBool(Constant.key_guide, defValue: true) && ObjectUtil.isNotEmpty(_guideList)) {
         SpUtil.putBool(Constant.key_guide, false);
         _initBanner();
       } else {
@@ -59,7 +58,7 @@ class SplashPageState extends State<SplashPage> {
     if (_splashModel != null) {
       setState(() {});
     }
-    HttpUtils httpUtil = new HttpUtils();
+    HttpUtils httpUtil = HttpUtils();
     httpUtil.getSplash().then((model) {
       if (!ObjectUtil.isEmpty(model.imgUrl)) {
         if (_splashModel == null || (_splashModel.imgUrl != model.imgUrl)) {
@@ -84,28 +83,28 @@ class SplashPageState extends State<SplashPage> {
   void _initBannerData() {
     for (int i = 0, length = _guideList.length; i < length; i++) {
       if (i == length - 1) {
-        _bannerList.add(new Stack(
+        _bannerList.add(Stack(
           children: <Widget>[
-            new Image.asset(
+            Image.asset(
               _guideList[i],
               fit: BoxFit.fill,
               width: double.infinity,
               height: double.infinity,
             ),
-            new Align(
+            Align(
               alignment: Alignment.bottomCenter,
-              child: new Container(
+              child: Container(
                 margin: EdgeInsets.only(bottom: 160.0),
-                child: new InkWell(
+                child: InkWell(
                   onTap: () {
                     _goMain();
                   },
-                  child: new CircleAvatar(
+                  child: CircleAvatar(
                     radius: 48.0,
                     backgroundColor: Colors.indigoAccent,
-                    child: new Padding(
+                    child: Padding(
                       padding: EdgeInsets.all(2.0),
-                      child: new Text(
+                      child: Text(
                         '立即体验',
                         textAlign: TextAlign.center,
                         style: TextStyle(color: Colors.white, fontSize: 16.0),
@@ -118,7 +117,7 @@ class SplashPageState extends State<SplashPage> {
           ],
         ));
       } else {
-        _bannerList.add(new Image.asset(
+        _bannerList.add(Image.asset(
           _guideList[i],
           fit: BoxFit.fill,
           width: double.infinity,
@@ -140,7 +139,7 @@ class SplashPageState extends State<SplashPage> {
     setState(() {
       _status = 1;
     });
-    _timerUtil = new TimerUtil(mTotalTime: 3 * 1000);
+    _timerUtil = TimerUtil(mTotalTime: 3 * 1000);
     _timerUtil.setOnTimerTickCallback((int tick) {
       double _tick = tick / 1000;
       setState(() {
@@ -167,7 +166,7 @@ class SplashPageState extends State<SplashPage> {
   }
 
   Widget _buildSplashBg() {
-    return new Image.asset(
+    return Image.asset(
       Utils.getImgPath('splash_bg'),
       width: double.infinity,
       fit: BoxFit.contain,
@@ -177,22 +176,22 @@ class SplashPageState extends State<SplashPage> {
 
   Widget _buildAdWidget() {
     if (_splashModel == null) {
-      return new Container(
+      return Container(
         height: 0.0,
       );
     }
-    return new Offstage(
+    return Offstage(
       offstage: !(_status == 1),
-      child: new InkWell(
+      child: InkWell(
         onTap: () {
           if (ObjectUtil.isEmpty(_splashModel.url)) return;
           _goMain();
           NavigatorUtil.pushWeb(context,
               title: _splashModel.title, url: _splashModel.url);
         },
-        child: new Container(
+        child: Container(
           alignment: Alignment.center,
-          child: new CachedNetworkImage(
+          child: CachedNetworkImage(
             width: double.infinity,
             height: double.infinity,
             fit: BoxFit.fill,
@@ -207,18 +206,18 @@ class SplashPageState extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
-    return new Material(
-      child: new Stack(
+    return Material(
+      child: Stack(
         children: <Widget>[
-          new Offstage(
+          Offstage(
             offstage: !(_status == 0),
             child: _buildSplashBg(),
           ),
-          new Offstage(
+          Offstage(
             offstage: !(_status == 2),
             child: ObjectUtil.isEmpty(_bannerList)
-                ? new Container()
-                : new Swiper(
+                ? Container()
+                : Swiper(
                     autoStart: false,
                     circular: false,
                     indicator: CircleSwiperIndicator(
@@ -229,25 +228,25 @@ class SplashPageState extends State<SplashPage> {
                     children: _bannerList),
           ),
           _buildAdWidget(),
-          new Offstage(
+          Offstage(
             offstage: !(_status == 1),
-            child: new Container(
+            child: Container(
               alignment: Alignment.bottomRight,
               margin: EdgeInsets.all(20.0),
               child: InkWell(
                 onTap: () {
                   _goMain();
                 },
-                child: new Container(
+                child: Container(
                     padding: EdgeInsets.all(12.0),
-                    child: new Text(
+                    child: Text(
                       '跳过 $_count',
-                      style: new TextStyle(fontSize: 14.0, color: Colors.white),
+                      style: TextStyle(fontSize: 14.0, color: Colors.white),
                     ),
-                    decoration: new BoxDecoration(
+                    decoration: BoxDecoration(
                         color: Color(0x66000000),
                         borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                        border: new Border.all(
+                        border: Border.all(
                             width: 0.33, color: Colours.divider))),
               ),
             ),

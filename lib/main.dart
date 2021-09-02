@@ -133,9 +133,9 @@ class MyAppState extends State<MyApp> {
 
     return OKToast(
       child: MaterialApp(
-        title: '我的语雀',
+        title: '爱语雀',
         debugShowCheckedModeBanner: false,
-        home: new SplashPage(),
+        home: SplashPage(),
         theme: ThemeData.light().copyWith(
           primaryColor: _themeColor,
           accentColor: _themeColor,
