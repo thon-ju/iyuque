@@ -2,7 +2,7 @@
 # 爱语雀
 一个好用的[语雀](https://www.yuque.com)手机客户端。
 
-[![logo](https://raw.githubusercontent.com/thon-ju/iyuque/master/assets/images/ic_launcher.png?raw=true)]
+[![logo](./assets/images/ic_launcher.png?raw=true)]
 
 ## 特点
 
@@ -23,13 +23,14 @@
 
 | 启动页 | 主页 |
 |:-:|:-:|
-| ![start](https://raw.githubusercontent.com/thon-ju/iyuque/master/assets/app/start.png?raw=true) | ![main](https://raw.githubusercontent.com/thon-ju/iyuque/master/assets/app/main.jpg?raw=true) |
+| ![start](./assets/app/start.png?raw=true) | ![main](./assets/app/main.jpg?raw=true) |
 
 ## 感谢开源
 
 * [html_editor_enhanced](https://github.com/tneotia/html-editor-enhanced) html富文本编辑器
 * [dio](https://github.com/flutterchina/dio) 一个强大的Dart Http请求库
 * [flustars](https://github.com/Sky24n/flustars) 常用工具集
+* [oktoast](https://github.com/OpenFlutter/flutter_oktoast) 一个好用的提示组件
 
 ## 贡献（*按提交时间排序*）
 * 期待你的加入
