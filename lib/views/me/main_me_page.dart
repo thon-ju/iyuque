@@ -1,7 +1,10 @@
+import 'package:fluintl/fluintl.dart';
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:iyuque/common/common.dart';
+import 'package:iyuque/components/blocs/application_bloc.dart';
+import 'package:iyuque/components/blocs/bloc_provider.dart';
 import 'package:iyuque/components/com_item.dart';
 import 'package:iyuque/model/json_data.dart';
 import 'package:iyuque/model/models.dart';
@@ -23,6 +26,7 @@ class MainMePage extends StatefulWidget {
 }
 
 class MainMePageState extends State<MainMePage> {
+
   Map<String, dynamic> userInfo = SpUtil.getObject(Constant.keyUserInfo);
   String userName='', userAccount='';
   Version version = Version();
@@ -48,6 +52,7 @@ class MainMePageState extends State<MainMePage> {
 
   @override
   Widget build(BuildContext context) {
+    final ApplicationBloc bloc = BlocProvider.of<ApplicationBloc>(context);
 
     return Scaffold(
       body: ListView(
@@ -104,6 +109,38 @@ class MainMePageState extends State<MainMePage> {
             NavigatorUtil.pushPage(context, SyncDataPage(), pageName: Ids.titleMeSyncData);
           })),
           Gaps.vGap10,
+          Material(
+            color: Colors.white,
+            child: ExpansionTile(
+              leading: Icon(
+                Icons.color_lens,
+                color: Theme.of(context).primaryColor,
+              ),
+              title: Text(
+                IntlUtil.getString(context, Ids.titleTheme), style: TextStyles.textSize14
+              ),
+              children: <Widget>[
+                Wrap(
+                  children: themeColorMap.keys.map((String key) {
+                    Color value = themeColorMap[key];
+                    return new InkWell(
+                      onTap: () {
+                        SpUtil.putString(Constant.key_theme_color, key);
+                        bloc.sendAppEvent(EventConfig.event_sys_update);
+                      },
+                      child: new Container(
+                        margin: EdgeInsets.all(5.0),
+                        width: 36.0,
+                        height: 36.0,
+                        color: value,
+                      ),
+                    );
+                  }).toList(),
+                )
+              ],
+            ),
+          ),
+          Gaps.line,
           ComArrowItem(ComModel(title: '设置', extra: '', icon: FontAwesomeIcons.cog, onTap: (){
             NavigatorUtil.pushPage(context, SettingPage(), pageName: Ids.titleSetting);
           })),
